@@ -1,5 +1,11 @@
+import BlurBackground from '@/components/BlurBackground'
+
 const App = () => {
-  return <div>App</div>
+  return (
+    <>
+      <BlurBackground />
+    </>
+  )
 }
 
 export default App
