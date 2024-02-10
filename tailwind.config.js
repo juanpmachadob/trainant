@@ -7,6 +7,7 @@ export default {
     extend: {
       colors: {
         customPurple: '#5F00CE',
+        customRed: '#ef596f',
         customDarkBlue: '#262F4B',
         customLight: '#f3f6ff'
       },
