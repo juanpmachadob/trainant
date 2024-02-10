@@ -1,3 +1,5 @@
+import { Suspense, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Navigate,
   Outlet,
@@ -7,27 +9,42 @@ import {
 } from 'react-router-dom'
 import AuthenticatedRoute from '@/router/AuthenticatedRoute'
 import UnauthenticatedRoute from '@/router/UnauthenticatedRoute'
+import { verifyAuthRequest } from '@/store/thunks/authThunk'
 import Login from '@/views/Auth/Login'
+import Loader from '@/components/Loader'
 
 export const AppRouter = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Outlet />}>
-          <>
-            <Route element={<UnauthenticatedRoute isAuthenticated={false} />}>
-              <Route path="login" element={<Login />} />
-            </Route>
+  const dispatch = useDispatch()
+  const { verifying, user } = useSelector((state) => state.auth)
 
-            <Route element={<AuthenticatedRoute isAuthenticated={false} />}>
-              <Route path="home" element={<div>Home</div>} />
-            </Route>
+  useEffect(() => {
+    dispatch(verifyAuthRequest())
+  }, [dispatch])
 
-            <Route path="" element={<Navigate to={'/login'} />} />
-            <Route path="*" element={<Navigate to={'/login'} />} />
-          </>
-        </Route>
-      </Routes>
-    </Router>
-  )
+  if (!verifying) {
+    return (
+      <Router>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<Outlet />}>
+              <>
+                <Route
+                  element={<UnauthenticatedRoute isAuthenticated={!!user.id} />}
+                >
+                  <Route path="login" element={<Login />} />
+                </Route>
+
+                <Route element={<AuthenticatedRoute isAuthenticated={!!user.id} />}>
+                  <Route path="home" element={<div>Home</div>} />
+                </Route>
+
+                <Route path="" element={<Navigate to={'/login'} />} />
+                <Route path="*" element={<Navigate to={'/login'} />} />
+              </>
+            </Route>
+          </Routes>
+        </Suspense>
+      </Router>
+    )
+  }
 }

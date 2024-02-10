@@ -11,6 +11,9 @@ export default {
         customDarkBlue: '#262F4B',
         customLight: '#f3f6ff'
       },
+      boxShadow: {
+        customClassic: '0 6px 10px rgba(0, 0, 0, 0.25)'
+      },
       fontFamily: {
         sans: ['Nunito', 'sans-serif', ...defaultTheme.fontFamily.sans]
       },
