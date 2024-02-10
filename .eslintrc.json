@@ -1,0 +1,76 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "standard",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "plugin:tailwindcss/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "settings": {
+        "react": {
+            "version": "18.2"
+        }
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "sort-imports": [
+            "warn",
+            {
+                "ignoreCase": true,
+                "ignoreDeclarationSort": true
+            }
+        ],
+        "import/order": [
+            "warn",
+            {
+                "groups": [
+                    [
+                        "external",
+                        "builtin"
+                    ],
+                    "internal",
+                    [
+                        "sibling",
+                        "parent"
+                    ],
+                    "index"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "@(vite|react*|firebase|@redux/*|valibot|dayjs|tailwindcss|postcss|autoprefixer)",
+                        "group": "external",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "@/components/**",
+                        "group": "internal",
+                        "position": "after"
+                    },
+                    {
+                        "pattern": "@/**",
+                        "group": "internal"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": [
+                    "react",
+                    "internal"
+                ],
+                "newlines-between": "never",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ]
+    }
+}
