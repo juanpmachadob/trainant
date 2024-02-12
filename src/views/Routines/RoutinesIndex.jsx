@@ -9,7 +9,7 @@ import RoutinesList from '@/components/Routines/RoutinesList'
 
 const RoutinesIndex = () => {
   const dispatch = useDispatch()
-  const { routines } = useSelector((state) => state.routines)
+  const { loading, routines } = useSelector((state) => state.routines)
 
   useEffect(() => {
     dispatch(getRoutinesRequest())
@@ -36,7 +36,7 @@ const RoutinesIndex = () => {
         </Link>
       </div>
       <hr />
-      <RoutinesList routines={routines} />
+      <RoutinesList loading={loading} routines={routines} />
     </main>
   )
 }
