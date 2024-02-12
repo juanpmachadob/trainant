@@ -11,6 +11,8 @@ import AuthenticatedRoute from '@/router/AuthenticatedRoute'
 import UnauthenticatedRoute from '@/router/UnauthenticatedRoute'
 import { verifyAuthRequest } from '@/store/thunks/authThunk'
 import Login from '@/views/Auth/Login'
+import Home from '@/views/Home'
+import RoutinesCreate from '@/views/Routines/RoutinesCreate'
 import Loader from '@/components/Loader'
 
 export const AppRouter = () => {
@@ -34,8 +36,11 @@ export const AppRouter = () => {
                   <Route path="login" element={<Login />} />
                 </Route>
 
-                <Route element={<AuthenticatedRoute isAuthenticated={!!user.id} />}>
-                  <Route path="home" element={<div>Home</div>} />
+                <Route
+                  element={<AuthenticatedRoute isAuthenticated={!!user.id} />}
+                >
+                  <Route path="home" element={<Home />} />
+                  <Route path="routines/create" element={<RoutinesCreate />} />
                 </Route>
 
                 <Route path="" element={<Navigate to={'/login'} />} />
