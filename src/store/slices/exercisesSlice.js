@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { EXERCISE_PARTS_OBJECT } from '@/utils/constants'
 
 const exercisesSlice = createSlice({
   name: 'exercises',
@@ -17,12 +18,25 @@ const exercisesSlice = createSlice({
     },
     getExercises: (state, { payload }) => {
       state.initialExercises = payload
-      state.exercises = payload
       state.initialLoad = true
+    },
+    getExercisesByPart: (state, { payload }) => {
+      const { type, part } = payload
+
+      if (type === EXERCISE_PARTS_OBJECT.BODY_PART) {
+        state.exercises = state.initialExercises.filter(
+          (exercise) => exercise.bodyPart === part
+        )
+      }
+      if (type === EXERCISE_PARTS_OBJECT.TARGET) {
+        state.exercises = state.initialExercises.filter(
+          (exercise) => exercise.target === part
+        )
+      }
     }
   }
 })
 
-export const { loadExercisesStart, loadExercisesFinish, getExercises } =
+export const { loadExercisesStart, loadExercisesFinish, getExercises, getExercisesByPart } =
   exercisesSlice.actions
 export default exercisesSlice.reducer
