@@ -1,14 +1,14 @@
-import ExerciseCard from '@/views/Exercises/ExerciseCard'
+import ExerciseItem from './ExerciseItem'
 
-const ExercisesList = ({ exercises }) => {
+const ExercisesList = ({ onClick, exercises }) => {
   return (
     <section className="m-4 flex flex-col gap-4">
       {exercises &&
         exercises.map((exercise) => (
-          <ExerciseCard
+          <ExerciseItem
             key={exercise.id}
             exercise={exercise}
-            to={`/exercises/${exercise.id}`}
+            onClick={onClick}
           />
         ))}
     </section>

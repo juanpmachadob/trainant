@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IconRepeat, IconWeight } from '@/components/Icons'
 
-const ExerciseItem = ({ exercise }) => {
+const ExerciseInfo = ({ exercise }) => {
   const [tab, setTab] = useState(0)
   const [image, setImage] = useState(exercise.gifUrl)
 
@@ -125,4 +125,4 @@ const ExerciseItem = ({ exercise }) => {
   )
 }
 
-export default ExerciseItem
+export default ExerciseInfo
