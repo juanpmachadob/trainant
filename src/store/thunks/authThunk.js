@@ -40,3 +40,13 @@ export const loginWithEmailAndPasswordRequest = (user) => async (dispatch) => {
     .catch((error) => console.error(error))
     .finally(() => dispatch(loadAuthFinish()))
 }
+
+export const logoutRequest = () => async (dispatch) => {
+  dispatch(loadAuthStart())
+  signOut(auth)
+    .then(() => {
+      dispatch(logout())
+    })
+    .catch((error) => console.error(error))
+    .finally(() => dispatch(loadAuthFinish()))
+}
