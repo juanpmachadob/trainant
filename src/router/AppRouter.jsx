@@ -13,6 +13,7 @@ import { verifyAuthRequest } from '@/store/thunks/authThunk'
 import Login from '@/views/Auth/Login'
 import Home from '@/views/Home'
 import RoutinesCreate from '@/views/Routines/RoutinesCreate'
+import RoutinesIndex from '@/views/Routines/RoutinesIndex'
 import Loader from '@/components/Loader'
 
 export const AppRouter = () => {
@@ -40,6 +41,7 @@ export const AppRouter = () => {
                   element={<AuthenticatedRoute isAuthenticated={!!user.id} />}
                 >
                   <Route path="home" element={<Home />} />
+                  <Route path="routines" element={<RoutinesIndex />} />
                   <Route path="routines/create" element={<RoutinesCreate />} />
                 </Route>
 
