@@ -14,6 +14,7 @@ import Login from '@/views/Auth/Login'
 import Home from '@/views/Home'
 import RoutinesCreate from '@/views/Routines/RoutinesCreate'
 import RoutinesIndex from '@/views/Routines/RoutinesIndex'
+import RoutinesShow from '@/views/Routines/RoutinesShow'
 import Loader from '@/components/Loader'
 
 export const AppRouter = () => {
@@ -42,6 +43,7 @@ export const AppRouter = () => {
                 >
                   <Route path="home" element={<Home />} />
                   <Route path="routines" element={<RoutinesIndex />} />
+                  <Route path="routines/:id" element={<RoutinesShow />} />
                   <Route path="routines/create" element={<RoutinesCreate />} />
                 </Route>
 
