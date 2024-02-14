@@ -23,15 +23,15 @@ const ExerciseInfo = ({ exercise }) => {
           {/* Body */}
           <div className="relative flex justify-center p-4">
             <div className="absolute bottom-4 right-4 flex gap-2">
-              {exercise.currentWeight && (
+              {'currentWeight' in exercise && (
                 <button className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic">
-                  <IconWeight />
+                  <IconWeight className="size-4" />
                   <span>{exercise.currentWeight}kg</span>
                 </button>
               )}
-              {exercise.currentRepetitions && (
+              {'currentRepetitions' in exercise && (
                 <button className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic">
-                  <IconRepeat />
+                  <IconRepeat className="size-4" />
                   <span>{exercise.currentRepetitions}</span>
                 </button>
               )}
@@ -64,7 +64,7 @@ const ExerciseInfo = ({ exercise }) => {
             >
               Instructions
             </span>
-            {exercise.notes && (
+            {'notes' in exercise && (
               <span
                 className={`cursor-pointer select-none text-xs font-bold uppercase hover:brightness-75 ${
                   tab === 2 ? 'text-white' : 'text-customLightPurple'

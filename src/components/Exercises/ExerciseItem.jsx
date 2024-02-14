@@ -24,13 +24,13 @@ const ExerciseItem = ({ exercise, onClick = () => {} }) => {
         <p className="truncate text-xl font-bold capitalize">{exercise.name}</p>
       </span>
       <span className="flex flex-col">
-        {!isNaN(exercise.currentWeight) && (
+        {'currentWeight' in exercise && (
           <span className="flex items-center gap-2">
             <IconWeight className="size-5" />
             <span>{exercise.currentWeight}kg</span>
           </span>
         )}
-        {!isNaN(exercise.currentRepetitions) && (
+        {'currentRepetitions' in exercise && (
           <span className="flex items-center gap-2">
             <IconRepeat className="size-5" />
             <span>{exercise.currentRepetitions}</span>
