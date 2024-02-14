@@ -75,7 +75,7 @@ export const getRoutinesRequest = () => (dispatch, getState) => {
           ])
         )
 
-        routines.push({ ...docData, exercises: crossExercises, id: doc.id })
+        routines.push({ ...docData, exercises: crossExercises, id: document.id })
       })
 
       dispatch(getRoutines(routines))
