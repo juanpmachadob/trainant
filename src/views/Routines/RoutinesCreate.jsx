@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { getExercisesByPart } from '@/store/slices/exercisesSlice'
 import { getExercisesRequest } from '@/store/thunks/exercisesThunk'
@@ -23,6 +23,7 @@ import PartList from '@/components/Parts/PartList'
 
 const RoutinesCreate = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { exercises } = useSelector((state) => state.exercises)
 
   const [step, setStep] = useState(0)
@@ -76,7 +77,8 @@ const RoutinesCreate = () => {
   }
 
   const handleCreateRoutine = () => {
-    dispatch(createRoutineRequest(formValues))
+    const callback = (id) => navigate(`/routines/${id}`)
+    dispatch(createRoutineRequest(formValues, callback))
   }
 
   useEffect(() => {
@@ -181,9 +183,7 @@ const RoutinesCreate = () => {
       {step === 2 && (
         <>
           <div className="m-4 flex flex-row items-center justify-between">
-            <p className="text-3xl font-bold">
-              Exercises ({exercises.length})
-            </p>
+            <p className="text-3xl font-bold">Exercises ({exercises.length})</p>
           </div>
           <hr />
           <ExercisesList

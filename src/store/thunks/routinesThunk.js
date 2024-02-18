@@ -35,8 +35,18 @@ export const createRoutineRequest =
 
     setDoc(routineRef, newRoutine)
       .then(() => {
-        dispatch(createRoutine(newRoutine))
-        if (callback) callback()
+        // Cross the exercises data (API) with the exercises from the new routine
+        const crossExercises = Object.fromEntries(
+          Object.keys(newRoutine.exercises).map((day) => [
+            day,
+            newRoutine.exercises[day].map((exercise) => ({
+              ...exercise,
+              ...routine.exercises[day].find((ex) => ex.id === exercise.id)
+            }))
+          ])
+        )
+        dispatch(createRoutine({ ...newRoutine, exercises: crossExercises }))
+        if (callback) callback(routineRef.id)
       })
       .catch((error) => console.error(error))
       .finally(() => dispatch(loadRoutinesFinish()))
