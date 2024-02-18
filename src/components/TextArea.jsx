@@ -1,6 +1,6 @@
-const Input = ({
+const TextArea = ({
   containerClassName = '',
-  inputClassName = '',
+  textAreaClassName = '',
   name,
   label,
   placeholder,
@@ -14,19 +14,20 @@ const Input = ({
       <label htmlFor={name} className="text-sm text-customDarkBlue">
         {label}
       </label>
-      <input
-        className={`block w-full rounded-xl border border-customDarkBlue p-3 text-customDarkBlue shadow focus:border-customPurple focus:outline-none disabled:opacity-50 ${inputClassName}`}
+      <textarea
+        className={`block w-full rounded-xl border border-customDarkBlue p-3 text-customDarkBlue shadow focus:border-customPurple focus:outline-none disabled:opacity-50 ${textAreaClassName}`}
         type="text"
         name={name}
         placeholder={placeholder}
         value={value}
         onChange={handleInputChange}
+        rows={3}
         {...props}
-      />
+      ></textarea>
       {error && error[0] && (
         <small className="block h-5 text-customRed">{error[0]}</small>
       )}
     </div>
   )
 }
-export default Input
+export default TextArea
