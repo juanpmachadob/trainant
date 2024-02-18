@@ -1,9 +1,58 @@
 import { useState } from 'react'
-import { IconRepeat, IconWeight } from '@/components/Icons'
+import { showAlert } from '@/utils/alerts'
+import { IconEdit, IconRepeat, IconWeight } from '@/components/Icons'
+import ExerciseNotesAlert from './Alerts/ExerciseNotesAlert'
+import ExerciseRepetitionsAlert from './Alerts/ExerciseRepetitionsAlert'
+import ExerciseWeightAlert from './Alerts/ExerciseWeightAlert'
 
-const ExerciseInfo = ({ exercise }) => {
+const ExerciseInfo = ({ exercise, setExerciseValues }) => {
   const [tab, setTab] = useState(0)
   const [image, setImage] = useState(exercise.gifUrl)
+
+  const handleShowWeightAlert = () => {
+    showAlert({
+      title: 'Current weight',
+      type: 'question',
+      html: (
+        <ExerciseWeightAlert
+          value={exercise.currentWeight}
+          setValue={setExerciseValues}
+        />
+      ),
+      focusConfirm: false,
+      showCancelButton: false
+    })
+  }
+
+  const handleShowRepetitionsAlert = () => {
+    showAlert({
+      title: 'Current repetitions',
+      type: 'question',
+      html: (
+        <ExerciseRepetitionsAlert
+          value={exercise.currentRepetitions}
+          setValue={setExerciseValues}
+        />
+      ),
+      focusConfirm: false,
+      showCancelButton: false
+    })
+  }
+
+  const handleShowNotesAlert = () => {
+    showAlert({
+      title: 'My exercise notes',
+      type: 'question',
+      html: (
+        <ExerciseNotesAlert
+          value={exercise.notes}
+          setValue={setExerciseValues}
+        />
+      ),
+      focusConfirm: false,
+      showCancelButton: false
+    })
+  }
 
   return (
     <>
@@ -24,15 +73,24 @@ const ExerciseInfo = ({ exercise }) => {
           <div className="relative flex justify-center p-4">
             <div className="absolute bottom-4 right-4 flex gap-2">
               {'currentWeight' in exercise && (
-                <button className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic">
+                <button
+                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
+                  onClick={handleShowWeightAlert}
+                >
                   <IconWeight className="size-4" />
-                  <span>{exercise.currentWeight}kg</span>
+                  <span>
+                    <p className="inline">{exercise.currentWeight}</p>
+                    <small>kg</small>
+                  </span>
                 </button>
               )}
               {'currentRepetitions' in exercise && (
-                <button className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic">
+                <button
+                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
+                  onClick={handleShowRepetitionsAlert}
+                >
                   <IconRepeat className="size-4" />
-                  <span>{exercise.currentRepetitions}</span>
+                  <p className="inline">{exercise.currentRepetitions}</p>
                 </button>
               )}
             </div>
@@ -46,7 +104,7 @@ const ExerciseInfo = ({ exercise }) => {
       </section>
 
       <section className="m-4">
-        <div className="overflow-hidden rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white/90 shadow-customClassic">
+        <div className="relative overflow-hidden rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white/90 shadow-customClassic">
           <nav className="flex items-center justify-around rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-customPurple px-8 py-4 text-white shadow-customClassic">
             <span
               className={`cursor-pointer select-none text-xs font-bold uppercase hover:brightness-75 ${
@@ -114,8 +172,16 @@ const ExerciseInfo = ({ exercise }) => {
           )}
           {tab === 2 && (
             <ul className="flex h-48 flex-col gap-2 overflow-y-auto px-8 py-4">
-              <li className="flex flex-col">
+              <li className="flex h-full flex-col">
                 <p>{exercise.notes}</p>
+              </li>
+              <li className="absolute bottom-4 right-4 flex self-end">
+                <button
+                  className="rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple p-3 text-white shadow-customClassic"
+                  onClick={handleShowNotesAlert}
+                >
+                  <IconEdit className="size-4" />
+                </button>
               </li>
             </ul>
           )}
