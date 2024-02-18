@@ -11,7 +11,7 @@ const classes = {
     'inline-flex cursor-pointer select-none rounded-full px-8 py-3 font-bold text-customLight shadow-customClassic outline-0 transition duration-300 ease-in-out enabled:hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50'
 }
 
-export const showAlert = ({ title, text, type, callback }) =>
+export const showAlert = ({ title, text, type, callback, ...props }) =>
   MySwal.fire({
     title,
     text,
@@ -26,7 +26,8 @@ export const showAlert = ({ title, text, type, callback }) =>
       actions: classes.actions,
       cancelButton: `${classes.button} bg-customDarkBlue text-customLight`,
       confirmButton: `${classes.button} bg-gradient-to-r from-customPurple to-customRed text-customLight`
-    }
+    },
+    ...props
   }).then(({ isConfirmed }) => {
     if (isConfirmed && callback) callback()
   })
