@@ -42,6 +42,22 @@ export const createRoutineRequest =
       .finally(() => dispatch(loadRoutinesFinish()))
   }
 
+export const updateRoutineRequest =
+  (routine, callback) => (dispatch, getState) => {
+    dispatch(loadRoutinesStart())
+
+    const { user } = getState().auth
+    const routineRef = doc(db, `users/${user.id}/routines/${routine.id}`)
+
+    setDoc(routineRef, routine)
+      .then(() => {
+        dispatch(getCurrentRoutine(routine))
+        if (callback) callback()
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(loadRoutinesFinish()))
+  }
+
 export const getRoutinesRequest = () => (dispatch, getState) => {
   dispatch(loadRoutinesStart())
 
@@ -75,7 +91,11 @@ export const getRoutinesRequest = () => (dispatch, getState) => {
           ])
         )
 
-        routines.push({ ...docData, exercises: crossExercises, id: document.id })
+        routines.push({
+          ...docData,
+          exercises: crossExercises,
+          id: document.id
+        })
       })
 
       dispatch(getRoutines(routines))
@@ -121,7 +141,11 @@ export const getRoutineByIdRequest = (id) => (dispatch, getState) => {
         ])
       )
 
-      const routine = { ...docData, exercises: crossExercises, id: document.id }
+      const routine = {
+        ...docData,
+        exercises: crossExercises,
+        id: document.id
+      }
       dispatch(getCurrentRoutine(routine))
     })
     .catch((error) => console.error(error))
