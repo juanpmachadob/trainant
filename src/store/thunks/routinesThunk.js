@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import {
@@ -5,7 +6,8 @@ import {
   getCurrentRoutine,
   getRoutines,
   loadRoutinesFinish,
-  loadRoutinesStart
+  loadRoutinesStart,
+  updateRoutine
 } from '@/store/slices/routinesSlice'
 
 export const createRoutineRequest =
@@ -45,6 +47,7 @@ export const createRoutineRequest =
             }))
           ])
         )
+
         dispatch(createRoutine({ ...newRoutine, exercises: crossExercises }))
         if (callback) callback(routineRef.id)
       })
@@ -59,9 +62,38 @@ export const updateRoutineRequest =
     const { user } = getState().auth
     const routineRef = doc(db, `users/${user.id}/routines/${routine.id}`)
 
-    setDoc(routineRef, routine)
+    const newRoutine = {
+      ...routine,
+      id: routineRef.id,
+      updatedAt: new Date().toISOString(),
+      exercises: Object.fromEntries(
+        Object.keys(routine.exercises).map((day) => [
+          day,
+          routine.exercises[day].map((exercise) => ({
+            id: exercise.id,
+            currentSets: exercise.currentSets || 0,
+            currentRepetitions: exercise.currentRepetitions || 0,
+            currentWeight: exercise.currentRepetitions || 0,
+            notes: exercise.currentNotes || ''
+          }))
+        ])
+      )
+    }
+
+    setDoc(routineRef, newRoutine)
       .then(() => {
-        dispatch(getCurrentRoutine(routine))
+        // Cross the exercises data (API) with the exercises from the new routine
+        const crossExercises = Object.fromEntries(
+          Object.keys(newRoutine.exercises).map((day) => [
+            day,
+            newRoutine.exercises[day].map((exercise) => ({
+              ...exercise,
+              ...routine.exercises[day].find((ex) => ex.id === exercise.id)
+            }))
+          ])
+        )
+
+        dispatch(updateRoutine({ ...newRoutine, exercises: crossExercises }))
         if (callback) callback()
       })
       .catch((error) => console.error(error))

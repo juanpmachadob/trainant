@@ -24,6 +24,13 @@ const routinesSlice = createSlice({
     },
     createRoutine: (state, { payload }) => {
       state.routines.push(payload)
+    },
+    updateRoutine: (state, { payload }) => {
+      const index = state.routines.findIndex(
+        (routine) => routine.id === payload.id
+      )
+      state.routines[index] = payload
+      state.currentRoutine = payload
     }
   }
 })
@@ -33,6 +40,7 @@ export const {
   loadRoutinesFinish,
   getRoutines,
   getCurrentRoutine,
-  createRoutine
+  createRoutine,
+  updateRoutine
 } = routinesSlice.actions
 export default routinesSlice.reducer
