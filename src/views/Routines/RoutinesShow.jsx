@@ -8,6 +8,7 @@ import {
   updateRoutineRequest
 } from '@/store/thunks/routinesThunk'
 import { DAYS_OF_WEEK_ARRAY, DAYS_OF_WEEK_OBJECT } from '@/utils/constants'
+import Button from '@/components/Button'
 import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
 import { IconArrowLeft, IconSave } from '@/components/Icons'
@@ -88,6 +89,11 @@ const RoutinesShow = () => {
             <p className="text-3xl font-bold">
               My exercises ({routine.exercises?.[day]?.length ?? '...'})
             </p>
+            <Link to={`/routines/${id}/edit`}>
+              <Button className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white">
+                Edit
+              </Button>
+            </Link>
           </div>
           <hr />
           <ExercisesList
