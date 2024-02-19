@@ -7,8 +7,8 @@ import { Logo } from '@/components/Logo'
 
 const Login = () => {
   const { formValues, handleInputChange, formErrors } = useForm({
-    email: 'juanpmachadob@gmail.com',
-    password: '123456'
+    email: '',
+    password: ''
   })
   const dispatch = useDispatch()
 
