@@ -60,7 +60,7 @@ const Login = () => {
           </span>
 
           <Button className="bottom-1 mt-4 self-start bg-gradient-to-r from-customPurple to-customRed text-customLight">
-            Iniciar sesión
+            Sign in
           </Button>
         </form>
       </div>
