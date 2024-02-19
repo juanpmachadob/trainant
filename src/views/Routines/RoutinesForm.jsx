@@ -1,11 +1,16 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { DAYS_OF_WEEK_ARRAY, EXERCISE_PARTS_ARRAY, EXERCISE_PARTS_OBJECT } from '@/utils/constants'
+import {
+  DAYS_OF_WEEK_ARRAY,
+  EXERCISE_PARTS_ARRAY,
+  EXERCISE_PARTS_OBJECT
+} from '@/utils/constants'
 import bodyParts from '@/utils/data/bodyParts.json'
 import targets from '@/utils/data/targets.json'
 import Button from '@/components/Button'
+import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
-import { IconArrowLeft, IconSave } from '@/components/Icons'
+import { IconArrowLeft, IconCheck, IconSave } from '@/components/Icons'
 import Input from '@/components/Input'
 import Navbar from '@/components/Navbar'
 import NavbarSelector from '@/components/NavbarSelector'
@@ -41,12 +46,21 @@ const RoutinesForm = ({
     if (step === 1) setStep(2)
   }
 
-  const handleSelectRoutinePartExercise = (value) => {
+  const handleChangeRoutinePartExercise = (value) => {
+    setExerciseInfo({ ...exerciseInfo, exercise: value })
+    if (step === 0) setStep(4)
+    if (step === 2) setStep(3)
+  }
+
+  const handleSelectRoutinePartExercise = () => {
     setFormValues((prev) => ({
       ...prev,
       exercises: {
         ...prev.exercises,
-        [exerciseInfo.day]: [...prev.exercises[exerciseInfo.day], value]
+        [exerciseInfo.day]: [
+          ...prev.exercises[exerciseInfo.day],
+          exerciseInfo.exercise
+        ]
       }
     }))
     setStep(0)
@@ -63,7 +77,7 @@ const RoutinesForm = ({
           )}
           {step > 0 && (
             <IconArrowLeft
-              onClick={() => setStep(step - 1)}
+              onClick={() => setStep(step === 4 ? 0 : step - 1)}
               className="size-6 cursor-pointer"
             />
           )}
@@ -93,11 +107,20 @@ const RoutinesForm = ({
           />
         )}
         <div className="flex">
-          <IconSave
-            className="size-6 cursor-pointer"
-            title="Save"
-            onClick={handleSubmit}
-          />
+          {step === 0 && (
+            <IconSave
+              className="size-6 cursor-pointer"
+              title="Save"
+              onClick={handleSubmit}
+            />
+          )}
+          {step === 3 && (
+            <IconCheck
+              className="size-6 cursor-pointer"
+              title="Select"
+              onClick={handleSelectRoutinePartExercise}
+            />
+          )}
         </div>
       </Navbar>
 
@@ -125,7 +148,10 @@ const RoutinesForm = ({
             </Button>
           </div>
           <hr />
-          <ExercisesList exercises={formValues.exercises[exerciseInfo.day]} />
+          <ExercisesList
+            exercises={formValues.exercises[exerciseInfo.day]}
+            onClick={handleChangeRoutinePartExercise}
+          />
         </>
       )}
 
@@ -146,10 +172,15 @@ const RoutinesForm = ({
           </div>
           <hr />
           <ExercisesList
+            showInfo={true}
             exercises={exercises}
-            onClick={handleSelectRoutinePartExercise}
+            onClick={handleChangeRoutinePartExercise}
           />
         </>
+      )}
+
+      {(step === 3 || step === 4) && (
+        <ExerciseInfo showInfo={false} exercise={exerciseInfo.exercise} />
       )}
     </>
   )

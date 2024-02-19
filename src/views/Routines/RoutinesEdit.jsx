@@ -29,7 +29,8 @@ const RoutinesEdit = () => {
     day: DAYS_OF_WEEK_OBJECT.MONDAY,
     type: EXERCISE_PARTS_OBJECT.BODY_PART,
     items: bodyParts,
-    part: ''
+    part: '',
+    exercise: {}
   })
 
   const { formValues, setFormValues, handleInputChange, reset } = useForm({

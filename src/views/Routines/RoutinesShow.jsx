@@ -97,6 +97,7 @@ const RoutinesShow = () => {
           </div>
           <hr />
           <ExercisesList
+            showInfo={true}
             loading={loading}
             exercises={routine.exercises?.[day] || []}
             onClick={(exercise) => reset(exercise)}
@@ -104,7 +105,11 @@ const RoutinesShow = () => {
         </>
       )}
       {formValues.id && (
-        <ExerciseInfo exercise={formValues} setExerciseValues={setFormValues} />
+        <ExerciseInfo
+          showInfo={true}
+          exercise={formValues}
+          setExerciseValues={setFormValues}
+        />
       )}
     </main>
   )

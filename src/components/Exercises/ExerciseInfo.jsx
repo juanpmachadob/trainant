@@ -5,7 +5,7 @@ import ExerciseNotesAlert from './Alerts/ExerciseNotesAlert'
 import ExerciseRepetitionsAlert from './Alerts/ExerciseRepetitionsAlert'
 import ExerciseWeightAlert from './Alerts/ExerciseWeightAlert'
 
-const ExerciseInfo = ({ exercise, setExerciseValues }) => {
+const ExerciseInfo = ({ showInfo, exercise, setExerciseValues }) => {
   const [tab, setTab] = useState(0)
   const [image, setImage] = useState(exercise.gifUrl)
 
@@ -72,7 +72,7 @@ const ExerciseInfo = ({ exercise, setExerciseValues }) => {
           {/* Body */}
           <div className="relative flex justify-center p-4">
             <div className="absolute bottom-4 right-4 flex gap-2">
-              {'currentWeight' in exercise && (
+              {showInfo && 'currentWeight' in exercise && (
                 <button
                   className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
                   onClick={handleShowWeightAlert}
@@ -84,7 +84,7 @@ const ExerciseInfo = ({ exercise, setExerciseValues }) => {
                   </span>
                 </button>
               )}
-              {'currentRepetitions' in exercise && (
+              {showInfo && 'currentRepetitions' in exercise && (
                 <button
                   className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
                   onClick={handleShowRepetitionsAlert}
@@ -122,7 +122,7 @@ const ExerciseInfo = ({ exercise, setExerciseValues }) => {
             >
               Instructions
             </span>
-            {'notes' in exercise && (
+            {showInfo && 'notes' in exercise && (
               <span
                 className={`cursor-pointer select-none text-xs font-bold uppercase hover:brightness-75 ${
                   tab === 2 ? 'text-white' : 'text-customLightPurple'
@@ -175,14 +175,16 @@ const ExerciseInfo = ({ exercise, setExerciseValues }) => {
               <li className="flex h-full flex-col">
                 <p>{exercise.notes}</p>
               </li>
-              <li className="absolute bottom-4 right-4 flex self-end">
-                <button
-                  className="rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple p-3 text-white shadow-customClassic"
-                  onClick={handleShowNotesAlert}
-                >
-                  <IconEdit className="size-4" />
-                </button>
-              </li>
+              {showInfo && (
+                <li className="absolute bottom-4 right-4 flex self-end">
+                  <button
+                    className="rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple p-3 text-white shadow-customClassic"
+                    onClick={handleShowNotesAlert}
+                  >
+                    <IconEdit className="size-4" />
+                  </button>
+                </li>
+              )}
             </ul>
           )}
         </div>

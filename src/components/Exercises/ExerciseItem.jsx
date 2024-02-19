@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IconRepeat, IconWeight } from '@/components/Icons'
 
-const ExerciseItem = ({ exercise, onClick = () => {} }) => {
+const ExerciseItem = ({ showInfo, exercise, onClick = () => {} }) => {
   const [image, setImage] = useState(exercise.gifUrl)
 
   return (
@@ -24,13 +24,13 @@ const ExerciseItem = ({ exercise, onClick = () => {} }) => {
         <p className="truncate text-xl font-bold capitalize">{exercise.name}</p>
       </span>
       <span className="flex flex-col">
-        {'currentWeight' in exercise && (
+        {showInfo && 'currentWeight' in exercise && (
           <span className="flex items-center gap-2">
             <IconWeight className="size-5" />
             <span>{exercise.currentWeight}kg</span>
           </span>
         )}
-        {'currentRepetitions' in exercise && (
+        {showInfo && 'currentRepetitions' in exercise && (
           <span className="flex items-center gap-2">
             <IconRepeat className="size-5" />
             <span>{exercise.currentRepetitions}</span>
