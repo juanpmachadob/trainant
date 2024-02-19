@@ -73,7 +73,7 @@ export const updateRoutineRequest =
             id: exercise.id,
             currentSets: exercise.currentSets || 0,
             currentRepetitions: exercise.currentRepetitions || 0,
-            currentWeight: exercise.currentRepetitions || 0,
+            currentWeight: exercise.currentWeight || 0,
             notes: exercise.currentNotes || ''
           }))
         ])
