@@ -108,7 +108,7 @@ export const updateRoutineRequest =
           timer: 1000,
           showConfirmButton: false,
           willClose: () => {
-            if (callback) callback()
+            if (callback) callback(routineRef.id)
           }
         })
       })
