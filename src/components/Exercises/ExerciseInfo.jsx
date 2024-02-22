@@ -5,7 +5,7 @@ import ExerciseNotesAlert from './Alerts/ExerciseNotesAlert'
 import ExerciseRepetitionsAlert from './Alerts/ExerciseRepetitionsAlert'
 import ExerciseWeightAlert from './Alerts/ExerciseWeightAlert'
 
-const ExerciseInfo = ({ showInfo, exercise, setExerciseValues }) => {
+const ExerciseInfo = ({ showInfo, loading, exercise, setExerciseValues }) => {
   const [tab, setTab] = useState(0)
   const [image, setImage] = useState(exercise.gifUrl)
 
@@ -74,7 +74,8 @@ const ExerciseInfo = ({ showInfo, exercise, setExerciseValues }) => {
             <div className="absolute bottom-4 right-4 flex gap-2">
               {showInfo && 'currentWeight' in exercise && (
                 <button
-                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
+                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic disabled:opacity-50"
+                  disabled={loading}
                   onClick={handleShowWeightAlert}
                 >
                   <IconWeight className="size-4" />
@@ -86,7 +87,8 @@ const ExerciseInfo = ({ showInfo, exercise, setExerciseValues }) => {
               )}
               {showInfo && 'currentRepetitions' in exercise && (
                 <button
-                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic"
+                  className="flex items-center gap-2 rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple px-4 py-2 text-white shadow-customClassic disabled:opacity-50"
+                  disabled={loading}
                   onClick={handleShowRepetitionsAlert}
                 >
                   <IconRepeat className="size-4" />
@@ -178,8 +180,9 @@ const ExerciseInfo = ({ showInfo, exercise, setExerciseValues }) => {
               {showInfo && (
                 <li className="absolute bottom-4 right-4 flex self-end">
                   <button
-                    className="rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple p-3 text-white shadow-customClassic"
+                    className="rounded-bl-2xl rounded-br-xl rounded-tl-xl rounded-tr-2xl bg-customPurple p-3 text-white shadow-customClassic disabled:opacity-50"
                     onClick={handleShowNotesAlert}
+                    disabled={loading}
                   >
                     <IconEdit className="size-4" />
                   </button>

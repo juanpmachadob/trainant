@@ -10,10 +10,11 @@ import RoutinesList from '@/components/Routines/RoutinesList'
 
 const RoutinesIndex = () => {
   const dispatch = useDispatch()
-  const { loading, routines } = useSelector((state) => state.routines)
-  const { initialLoad: initialLoadExercises } = useSelector(
-    (state) => state.exercises
+  const { loading: loadingRoutines, routines } = useSelector(
+    (state) => state.routines
   )
+  const { loading: loadingExercises, initialLoad: initialLoadExercises } =
+    useSelector((state) => state.exercises)
 
   useEffect(() => {
     dispatch(getExercisesRequest())
@@ -29,7 +30,14 @@ const RoutinesIndex = () => {
     <main className="flex flex-col">
       <Navbar>
         <div className="flex flex-row items-center gap-4">
-          <Link to="/home">
+          <Link
+            to="/home"
+            className={
+              loadingRoutines || loadingExercises
+                ? 'pointer-events-none opacity-50'
+                : ''
+            }
+          >
             <IconArrowLeft className="size-6 cursor-pointer" />
           </Link>
         </div>
@@ -39,14 +47,24 @@ const RoutinesIndex = () => {
 
       <div className="m-4 flex flex-row items-center justify-between">
         <p className="text-3xl font-bold">My routines ({routines.length})</p>
-        <Link to="/routines/create">
-          <Button className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white">
+        <Link
+          to="/routines/create"
+          className={
+            loadingExercises || loadingRoutines
+              ? 'pointer-events-none opacity-50'
+              : ''
+          }
+        >
+          <Button
+            className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
+            disabled={loadingExercises || loadingRoutines}
+          >
             Create
           </Button>
         </Link>
       </div>
       <hr />
-      <RoutinesList loading={loading} routines={routines} />
+      <RoutinesList loading={loadingRoutines} routines={routines} />
     </main>
   )
 }

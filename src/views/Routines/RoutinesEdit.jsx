@@ -18,10 +18,11 @@ const RoutinesEdit = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { currentRoutine: routine } = useSelector((state) => state.routines)
-  const { initialLoad: initialLoadExercises } = useSelector(
-    (state) => state.exercises
+  const { loading: loadingRoutines, currentRoutine: routine } = useSelector(
+    (state) => state.routines
   )
+  const { loading: loadingExercises, initialLoad: initialLoadExercises } =
+    useSelector((state) => state.exercises)
 
   const [step, setStep] = useState(0)
 
@@ -79,6 +80,7 @@ const RoutinesEdit = () => {
       <RoutinesForm
         step={step}
         setStep={setStep}
+        loading={loadingRoutines || loadingExercises}
         formValues={formValues}
         setFormValues={setFormValues}
         handleInputChange={handleInputChange}

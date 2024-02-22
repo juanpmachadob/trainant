@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { getExercisesByPart } from '@/store/slices/exercisesSlice'
@@ -12,6 +12,7 @@ import RoutinesForm from './RoutinesForm'
 const RoutinesCreate = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { loading: loadingExercises } = useSelector((state) => state.exercises)
 
   const [step, setStep] = useState(0)
 
@@ -58,6 +59,7 @@ const RoutinesCreate = () => {
       <RoutinesForm
         step={step}
         setStep={setStep}
+        loading={loadingExercises}
         formValues={formValues}
         setFormValues={setFormValues}
         handleInputChange={handleInputChange}

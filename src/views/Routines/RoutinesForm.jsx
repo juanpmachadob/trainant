@@ -19,6 +19,7 @@ import PartList from '@/components/Parts/PartList'
 const RoutinesForm = ({
   step,
   setStep,
+  loading,
   formValues,
   setFormValues,
   handleInputChange,
@@ -71,14 +72,19 @@ const RoutinesForm = ({
       <Navbar>
         <div className="flex flex-row items-center gap-4">
           {step === 0 && (
-            <Link to="/routines">
+            <Link
+              to="/routines"
+              className={loading ? 'pointer-events-none opacity-50' : ''}
+            >
               <IconArrowLeft className="size-6 cursor-pointer" />
             </Link>
           )}
           {step > 0 && (
             <IconArrowLeft
               onClick={() => setStep(step === 4 ? 0 : step - 1)}
-              className="size-6 cursor-pointer"
+              className={`size-6 cursor-pointer ${
+                loading ? 'pointer-events-none opacity-50' : ''
+              }`}
             />
           )}
         </div>
@@ -87,6 +93,7 @@ const RoutinesForm = ({
             options={DAYS_OF_WEEK_ARRAY}
             onChange={(e) => handleChangeRoutineDay(e.target.value)}
             value={exerciseInfo.day}
+            disabled={loading}
           />
         )}
         {step === 1 && (
@@ -94,6 +101,7 @@ const RoutinesForm = ({
             options={EXERCISE_PARTS_ARRAY}
             onChange={(e) => handleChangeRoutinePartType(e.target.value)}
             value={exerciseInfo.type}
+            disabled={loading}
           />
         )}
         {step === 2 && (
@@ -104,19 +112,24 @@ const RoutinesForm = ({
             }))}
             onChange={(e) => handleChangeRoutinePartItem(e.target.value)}
             value={exerciseInfo.part}
+            disabled={loading}
           />
         )}
         <div className="flex">
           {step === 0 && (
             <IconSave
-              className="size-6 cursor-pointer"
+              className={`size-6 cursor-pointer ${
+                loading ? 'pointer-events-none opacity-50' : ''
+              }`}
               title="Save"
               onClick={handleSubmit}
             />
           )}
           {step === 3 && (
             <IconCheck
-              className="size-6 cursor-pointer"
+              className={`size-6 cursor-pointer ${
+                loading ? 'pointer-events-none opacity-50' : ''
+              }`}
               title="Select"
               onClick={handleSelectRoutinePartExercise}
             />
@@ -143,6 +156,7 @@ const RoutinesForm = ({
             <Button
               onClick={() => setStep(1)}
               className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
+              disabled={loading}
             >
               Add
             </Button>
