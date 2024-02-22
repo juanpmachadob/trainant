@@ -34,10 +34,10 @@ const RoutinesForm = ({
 
   const handleChangeRoutinePartType = (value) => {
     if (value === EXERCISE_PARTS_OBJECT.BODY_PART) {
-      setExerciseInfo({ type: value, items: bodyParts })
+      setExerciseInfo({ ...exerciseInfo, type: value, items: bodyParts })
     }
     if (value === EXERCISE_PARTS_OBJECT.TARGET) {
-      setExerciseInfo({ type: value, items: targets })
+      setExerciseInfo({ ...exerciseInfo, type: value, items: targets })
     }
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore'
 import { db } from '@/services/firebase'
 import {
@@ -9,6 +8,7 @@ import {
   loadRoutinesStart,
   updateRoutine
 } from '@/store/slices/routinesSlice'
+import { showAlert } from '@/utils/alerts'
 
 export const createRoutineRequest =
   (routine, callback) => (dispatch, getState) => {
@@ -49,7 +49,15 @@ export const createRoutineRequest =
         )
 
         dispatch(createRoutine({ ...newRoutine, exercises: crossExercises }))
-        if (callback) callback(routineRef.id)
+        showAlert({
+          title: 'Routine created',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false,
+          willClose: () => {
+            if (callback) callback(routineRef.id)
+          }
+        })
       })
       .catch((error) => console.error(error))
       .finally(() => dispatch(loadRoutinesFinish()))
@@ -74,7 +82,7 @@ export const updateRoutineRequest =
             currentSets: exercise.currentSets || 0,
             currentRepetitions: exercise.currentRepetitions || 0,
             currentWeight: exercise.currentWeight || 0,
-            notes: exercise.currentNotes || ''
+            notes: exercise.notes || ''
           }))
         ])
       )
@@ -94,7 +102,15 @@ export const updateRoutineRequest =
         )
 
         dispatch(updateRoutine({ ...newRoutine, exercises: crossExercises }))
-        if (callback) callback()
+        showAlert({
+          title: 'Routine updated',
+          icon: 'success',
+          timer: 1000,
+          showConfirmButton: false,
+          willClose: () => {
+            if (callback) callback()
+          }
+        })
       })
       .catch((error) => console.error(error))
       .finally(() => dispatch(loadRoutinesFinish()))
