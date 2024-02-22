@@ -96,38 +96,40 @@ const RoutinesShow = () => {
         </div>
       </Navbar>
 
-      {!formValues.id && (
-        <>
-          <div className="m-4 flex flex-row items-center justify-between">
-            <p className="text-3xl font-bold">
-              My exercises ({routine.exercises?.[day]?.length ?? '...'})
-            </p>
-            <Link to={`/routines/${id}/edit`}>
-              <Button
-                className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
-                disabled={loadingRoutines}
-              >
-                Edit
-              </Button>
-            </Link>
-          </div>
-          <hr />
-          <ExercisesList
+      <div className="mt-20">
+        {!formValues.id && (
+          <>
+            <div className="m-4 flex flex-row items-center justify-between">
+              <p className="text-3xl font-bold">
+                My exercises ({routine.exercises?.[day]?.length ?? '...'})
+              </p>
+              <Link to={`/routines/${id}/edit`}>
+                <Button
+                  className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
+                  disabled={loadingRoutines}
+                >
+                  Edit
+                </Button>
+              </Link>
+            </div>
+            <hr />
+            <ExercisesList
+              showInfo={true}
+              loading={loadingRoutines}
+              exercises={routine.exercises?.[day] || []}
+              onClick={(exercise) => reset(exercise)}
+            />
+          </>
+        )}
+        {formValues.id && (
+          <ExerciseInfo
             showInfo={true}
             loading={loadingRoutines}
-            exercises={routine.exercises?.[day] || []}
-            onClick={(exercise) => reset(exercise)}
+            exercise={formValues}
+            setExerciseValues={setFormValues}
           />
-        </>
-      )}
-      {formValues.id && (
-        <ExerciseInfo
-          showInfo={true}
-          loading={loadingRoutines}
-          exercise={formValues}
-          setExerciseValues={setFormValues}
-        />
-      )}
+        )}
+      </div>
     </main>
   )
 }

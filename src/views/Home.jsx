@@ -37,7 +37,7 @@ const Home = () => {
           />
         </div>
       </Navbar>
-      <div className="flex flex-1 items-center justify-center">
+      <div className="mt-20 flex flex-1 items-center justify-center">
         <div className="my-16 flex flex-col items-center gap-4 text-center">
           <div className="animate-bounce">
             <Logo className="size-24" />

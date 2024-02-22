@@ -45,7 +45,7 @@ const RoutinesIndex = () => {
         <div className="flex"></div>
       </Navbar>
 
-      <div className="m-4 flex flex-row items-center justify-between">
+      <div className="m-4 mt-24 flex flex-row items-center justify-between">
         <p className="text-3xl font-bold">My routines ({routines.length})</p>
         <Link
           to="/routines/create"

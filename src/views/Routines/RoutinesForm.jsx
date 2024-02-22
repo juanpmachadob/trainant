@@ -137,65 +137,69 @@ const RoutinesForm = ({
         </div>
       </Navbar>
 
-      {/* View current exercises */}
-      {step === 0 && (
-        <>
-          <div className="flex flex-col items-center justify-between gap-4 p-4">
-            <Input
-              name="name"
-              placeholder="Enter your routine name"
-              value={formValues.name}
-              onChange={handleInputChange}
+      <div className="mt-20">
+        {/* View current exercises */}
+        {step === 0 && (
+          <>
+            <div className="flex flex-col items-center justify-between gap-4 p-4">
+              <Input
+                name="name"
+                placeholder="Enter your routine name"
+                value={formValues.name}
+                onChange={handleInputChange}
+              />
+            </div>
+            <hr />
+            <div className="m-4 flex flex-row items-center justify-between">
+              <p className="text-3xl font-bold">
+                Exercises ({formValues.exercises[exerciseInfo.day].length})
+              </p>
+              <Button
+                onClick={() => setStep(1)}
+                className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
+                disabled={loading}
+              >
+                Add
+              </Button>
+            </div>
+            <hr />
+            <ExercisesList
+              exercises={formValues.exercises[exerciseInfo.day]}
+              onClick={handleChangeRoutinePartExercise}
             />
-          </div>
-          <hr />
-          <div className="m-4 flex flex-row items-center justify-between">
-            <p className="text-3xl font-bold">
-              Exercises ({formValues.exercises[exerciseInfo.day].length})
-            </p>
-            <Button
-              onClick={() => setStep(1)}
-              className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
-              disabled={loading}
-            >
-              Add
-            </Button>
-          </div>
-          <hr />
-          <ExercisesList
-            exercises={formValues.exercises[exerciseInfo.day]}
-            onClick={handleChangeRoutinePartExercise}
+          </>
+        )}
+
+        {/* Select exercise parts */}
+        {step === 1 && (
+          <PartList
+            partType={exerciseInfo.type}
+            partItems={exerciseInfo.items}
+            onClick={handleChangeRoutinePartItem}
           />
-        </>
-      )}
+        )}
 
-      {/* Select exercise parts */}
-      {step === 1 && (
-        <PartList
-          partType={exerciseInfo.type}
-          partItems={exerciseInfo.items}
-          onClick={handleChangeRoutinePartItem}
-        />
-      )}
+        {/* Select exercise item */}
+        {step === 2 && (
+          <>
+            <div className="m-4 flex flex-row items-center justify-between">
+              <p className="text-3xl font-bold">
+                Exercises ({exercises.length})
+              </p>
+            </div>
+            <hr />
+            <ExercisesList
+              showInfo={true}
+              exercises={exercises}
+              onClick={handleChangeRoutinePartExercise}
+            />
+          </>
+        )}
 
-      {/* Select exercise item */}
-      {step === 2 && (
-        <>
-          <div className="m-4 flex flex-row items-center justify-between">
-            <p className="text-3xl font-bold">Exercises ({exercises.length})</p>
-          </div>
-          <hr />
-          <ExercisesList
-            showInfo={true}
-            exercises={exercises}
-            onClick={handleChangeRoutinePartExercise}
-          />
-        </>
-      )}
-
-      {(step === 3 || step === 4) && (
-        <ExerciseInfo showInfo={false} exercise={exerciseInfo.exercise} />
-      )}
+        {(step === 3 || step === 4) && (
+          <ExerciseInfo showInfo={false} exercise={exerciseInfo.exercise} />
+        )}
+      </div>
     </>
   )
 }
