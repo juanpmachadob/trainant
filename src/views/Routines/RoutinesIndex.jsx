@@ -26,7 +26,7 @@ const RoutinesIndex = () => {
   }, [dispatch, initialLoadExercises])
 
   return (
-    <main className="flex h-[100dvh] flex-col">
+    <main className="flex flex-col">
       <Navbar>
         <div className="flex flex-row items-center gap-4">
           <Link to="/home">

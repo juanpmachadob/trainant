@@ -75,7 +75,7 @@ const RoutinesEdit = () => {
   }, [dispatch, exerciseInfo.type, exerciseInfo.part, step])
 
   return (
-    <main className="flex h-[100dvh] flex-col">
+    <main className="flex flex-col">
       <RoutinesForm
         step={step}
         setStep={setStep}
