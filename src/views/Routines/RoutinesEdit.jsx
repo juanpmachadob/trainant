@@ -9,7 +9,7 @@ import {
   getRoutineByIdRequest,
   updateRoutineRequest
 } from '@/store/thunks/routinesThunk'
-import { DAYS_OF_WEEK_OBJECT, EXERCISE_PARTS_OBJECT } from '@/utils/constants'
+import { CURRENT_DAY_OF_WEEK, EXERCISE_PARTS_OBJECT } from '@/utils/constants'
 import bodyParts from '@/utils/data/bodyParts.json'
 import RoutinesForm from './RoutinesForm'
 
@@ -27,7 +27,7 @@ const RoutinesEdit = () => {
   const [step, setStep] = useState(0)
 
   const [exerciseInfo, setExerciseInfo] = useState({
-    day: DAYS_OF_WEEK_OBJECT.MONDAY,
+    day: CURRENT_DAY_OF_WEEK,
     type: EXERCISE_PARTS_OBJECT.BODY_PART,
     items: bodyParts,
     part: '',

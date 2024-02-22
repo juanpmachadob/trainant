@@ -7,7 +7,7 @@ import {
   getRoutineByIdRequest,
   updateRoutineRequest
 } from '@/store/thunks/routinesThunk'
-import { DAYS_OF_WEEK_ARRAY, DAYS_OF_WEEK_OBJECT } from '@/utils/constants'
+import { CURRENT_DAY_OF_WEEK, DAYS_OF_WEEK_ARRAY } from '@/utils/constants'
 import Button from '@/components/Button'
 import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
@@ -25,7 +25,7 @@ const RoutinesShow = () => {
   const { initialLoad: initialLoadExercises } = useSelector(
     (state) => state.exercises
   )
-  const [day, setDay] = useState(DAYS_OF_WEEK_OBJECT.MONDAY)
+  const [day, setDay] = useState(CURRENT_DAY_OF_WEEK)
   const { formValues, setFormValues, valuesChanged, reset } = useForm({})
 
   useEffect(() => {

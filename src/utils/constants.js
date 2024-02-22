@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export const EXERCISE_PARTS_OBJECT = {
   BODY_PART: 'bodyParts',
   TARGET: 'targets'
@@ -27,3 +29,5 @@ export const DAYS_OF_WEEK_ARRAY = [
   { value: DAYS_OF_WEEK_OBJECT.SATURDAY, label: 'Saturday' },
   { value: DAYS_OF_WEEK_OBJECT.SUNDAY, label: 'Sunday' }
 ]
+
+export const CURRENT_DAY_OF_WEEK = dayjs().format('dddd').toLocaleLowerCase()
