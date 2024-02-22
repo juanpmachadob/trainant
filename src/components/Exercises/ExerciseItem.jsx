@@ -17,7 +17,7 @@ const ExerciseItem = ({ showInfo, exercise, onClick = () => {} }) => {
       />
       {/* </span> */}
       <span className="w-full overflow-hidden">
-        <span className="rounded-full bg-purple-900 px-2.5 py-0.5 text-xs font-bold uppercase text-white">
+        <span className="truncate rounded-full bg-purple-900 px-2.5 py-0.5 text-xs font-bold uppercase text-white">
           {exercise.target}
         </span>
         <p className="truncate text-xl font-bold capitalize">{exercise.name}</p>
