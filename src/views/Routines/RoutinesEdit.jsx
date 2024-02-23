@@ -58,9 +58,9 @@ const RoutinesEdit = () => {
 
   useEffect(() => {
     if (id && initialLoadExercises) {
-      dispatch(getRoutineByIdRequest(id))
+      dispatch(getRoutineByIdRequest(id, navigate))
     }
-  }, [dispatch, id, initialLoadExercises])
+  }, [dispatch, id, initialLoadExercises, navigate])
 
   useEffect(() => {
     if (routine.id) reset(routine)

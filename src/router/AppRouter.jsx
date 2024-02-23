@@ -12,6 +12,7 @@ import UnauthenticatedRoute from '@/router/UnauthenticatedRoute'
 import { verifyAuthRequest } from '@/store/thunks/authThunk'
 import Login from '@/views/Auth/Login'
 import Home from '@/views/Home'
+import Page404 from '@/views/Page404'
 import RoutinesCreate from '@/views/Routines/RoutinesCreate'
 import RoutinesEdit from '@/views/Routines/RoutinesEdit'
 import RoutinesIndex from '@/views/Routines/RoutinesIndex'
@@ -49,6 +50,7 @@ export const AppRouter = () => {
                   <Route path="routines/create" element={<RoutinesCreate />} />
                 </Route>
 
+                <Route path="404" element={<Page404 />} />
                 <Route path="" element={<Navigate to={'/login'} />} />
                 <Route path="*" element={<Navigate to={'/login'} />} />
               </>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { getExercisesRequest } from '@/store/thunks/exercisesThunk'
 import {
@@ -18,6 +18,7 @@ import NavbarSelector from '@/components/NavbarSelector'
 const RoutinesShow = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const { loading: loadingRoutines, currentRoutine: routine } = useSelector(
     (state) => state.routines
@@ -34,9 +35,9 @@ const RoutinesShow = () => {
 
   useEffect(() => {
     if (id && initialLoadExercises) {
-      dispatch(getRoutineByIdRequest(id))
+      dispatch(getRoutineByIdRequest(id, navigate))
     }
-  }, [dispatch, id, initialLoadExercises])
+  }, [dispatch, id, initialLoadExercises, navigate])
 
   const handleEditRoutine = () => {
     const newRoutine = {

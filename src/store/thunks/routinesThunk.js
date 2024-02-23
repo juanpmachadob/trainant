@@ -162,7 +162,7 @@ export const getRoutinesRequest = () => (dispatch, getState) => {
     .finally(() => dispatch(loadRoutinesFinish()))
 }
 
-export const getRoutineByIdRequest = (id) => (dispatch, getState) => {
+export const getRoutineByIdRequest = (id, navigate) => (dispatch, getState) => {
   dispatch(loadRoutinesStart())
 
   const { initialLoad, routines, currentRoutine } = getState().routines
@@ -183,6 +183,8 @@ export const getRoutineByIdRequest = (id) => (dispatch, getState) => {
 
   getDoc(routineRef)
     .then((document) => {
+      if (!document.exists()) navigate('/404')
+
       const { initialExercises } = getState().exercises
       const docData = document.data()
 
