@@ -36,7 +36,7 @@ const ExerciseWeightAlert = ({ value, setValue }) => {
   }
 
   return (
-    <form className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4">
       <Input
         type="number"
         name="currentWeightKG"
@@ -54,7 +54,7 @@ const ExerciseWeightAlert = ({ value, setValue }) => {
         value={weight.lb}
         onChange={(e) => handleTransformWeight(e, 'lb')}
       />
-    </form>
+    </div>
   )
 }
 export default ExerciseWeightAlert

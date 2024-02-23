@@ -11,7 +11,7 @@ const ExerciseNotesAlert = ({ value, setValue }) => {
   }
 
   return (
-    <form>
+    <div>
       <TextArea
         name="notes"
         label="Notes"
@@ -19,7 +19,7 @@ const ExerciseNotesAlert = ({ value, setValue }) => {
         value={notes}
         onChange={handleChange}
       ></TextArea>
-    </form>
+    </div>
   )
 }
 export default ExerciseNotesAlert

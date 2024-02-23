@@ -11,7 +11,7 @@ const ExerciseRepetitionsAlert = ({ value, setValue }) => {
   }
 
   return (
-    <form>
+    <div>
       <Input
         type="number"
         name="currentRepetitions"
@@ -20,7 +20,7 @@ const ExerciseRepetitionsAlert = ({ value, setValue }) => {
         value={repetitions}
         onChange={handleChange}
       />
-    </form>
+    </div>
   )
 }
 export default ExerciseRepetitionsAlert
