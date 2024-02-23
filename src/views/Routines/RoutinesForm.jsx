@@ -1,5 +1,7 @@
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { searchExercises } from '@/store/slices/exercisesSlice'
 import {
   DAYS_OF_WEEK_ARRAY,
   EXERCISE_PARTS_ARRAY,
@@ -28,6 +30,8 @@ const RoutinesForm = ({
   handleSubmit
 }) => {
   const { exercises } = useSelector((state) => state.exercises)
+  const [searchTerm, setSearchTerm] = useState('')
+  const dispatch = useDispatch()
 
   const handleChangeRoutineDay = (value) => {
     setExerciseInfo({ ...exerciseInfo, day: value })
@@ -65,6 +69,18 @@ const RoutinesForm = ({
       }
     }))
     setStep(0)
+  }
+
+  const handleSearchExerciseByTerm = (e) => {
+    const term = e.target.value
+    setSearchTerm(term)
+    dispatch(
+      searchExercises({
+        term,
+        type: exerciseInfo.type,
+        part: exerciseInfo.part
+      })
+    )
   }
 
   return (
@@ -182,6 +198,15 @@ const RoutinesForm = ({
         {/* Select exercise item */}
         {step === 2 && (
           <>
+            <div className="flex flex-col items-center justify-between gap-4 p-4">
+              <Input
+                name="term"
+                placeholder="Search exercise..."
+                value={searchTerm}
+                onChange={handleSearchExerciseByTerm}
+              />
+            </div>
+            <hr />
             <div className="m-4 flex flex-row items-center justify-between">
               <p className="text-3xl font-bold">
                 Exercises ({exercises.length})

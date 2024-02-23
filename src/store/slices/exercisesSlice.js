@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { EXERCISE_PARTS_OBJECT } from '@/utils/constants'
 
+const getFilterByPart = (type, part) => {
+  if (type === EXERCISE_PARTS_OBJECT.BODY_PART) {
+    return (exercise) => exercise.bodyPart === part
+  }
+  if (type === EXERCISE_PARTS_OBJECT.TARGET) {
+    return (exercise) => exercise.target === part
+  }
+}
+
 const exercisesSlice = createSlice({
   name: 'exercises',
   initialState: {
@@ -22,21 +31,29 @@ const exercisesSlice = createSlice({
     },
     getExercisesByPart: (state, { payload }) => {
       const { type, part } = payload
+      state.exercises = state.initialExercises.filter(
+        getFilterByPart(type, part)
+      )
+    },
+    searchExercises: (state, { payload }) => {
+      const { term, type, part } = payload
+      const searchTerm = term.toLowerCase()
 
-      if (type === EXERCISE_PARTS_OBJECT.BODY_PART) {
-        state.exercises = state.initialExercises.filter(
-          (exercise) => exercise.bodyPart === part
-        )
-      }
-      if (type === EXERCISE_PARTS_OBJECT.TARGET) {
-        state.exercises = state.initialExercises.filter(
-          (exercise) => exercise.target === part
-        )
-      }
+      state.exercises = state.initialExercises.filter(
+        (exercise) =>
+          (exercise.name.toLowerCase().includes(searchTerm) ||
+            exercise.equipment.toLowerCase().includes(searchTerm)) &&
+          getFilterByPart(type, part)(exercise)
+      )
     }
   }
 })
 
-export const { loadExercisesStart, loadExercisesFinish, getExercises, getExercisesByPart } =
-  exercisesSlice.actions
+export const {
+  loadExercisesStart,
+  loadExercisesFinish,
+  getExercises,
+  getExercisesByPart,
+  searchExercises
+} = exercisesSlice.actions
 export default exercisesSlice.reducer
