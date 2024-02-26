@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { getExercisesRequest } from '@/store/thunks/exercisesThunk'
 import {
@@ -17,6 +17,7 @@ import NavbarSelector from '@/components/NavbarSelector'
 
 const RoutinesShow = () => {
   const { id } = useParams()
+  const { state } = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -26,7 +27,7 @@ const RoutinesShow = () => {
   const { initialLoad: initialLoadExercises } = useSelector(
     (state) => state.exercises
   )
-  const [day, setDay] = useState(CURRENT_DAY_OF_WEEK)
+  const [day, setDay] = useState(state?.day || CURRENT_DAY_OF_WEEK)
   const { formValues, setFormValues, valuesChanged, reset } = useForm({})
 
   useEffect(() => {
@@ -106,7 +107,7 @@ const RoutinesShow = () => {
               <p className="text-3xl font-bold">
                 My exercises ({routine.exercises?.[day]?.length ?? '...'})
               </p>
-              <Link to={`/routines/${id}/edit`}>
+              <Link to={`/routines/${id}/edit`} state={{ day }}>
                 <Button
                   className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
                   disabled={loadingRoutines}

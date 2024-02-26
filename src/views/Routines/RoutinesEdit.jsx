@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { getExercisesByPart } from '@/store/slices/exercisesSlice'
 import { getExercisesRequest } from '@/store/thunks/exercisesThunk'
@@ -15,6 +15,7 @@ import RoutinesForm from './RoutinesForm'
 
 const RoutinesEdit = () => {
   const { id } = useParams()
+  const { state } = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -27,7 +28,7 @@ const RoutinesEdit = () => {
   const [step, setStep] = useState(0)
 
   const [exerciseInfo, setExerciseInfo] = useState({
-    day: CURRENT_DAY_OF_WEEK,
+    day: state?.day || CURRENT_DAY_OF_WEEK,
     type: EXERCISE_PARTS_OBJECT.BODY_PART,
     items: bodyParts,
     part: '',

@@ -101,7 +101,8 @@ const RoutinesForm = ({
         <div className="flex flex-row items-center gap-4">
           {step === 0 && (
             <Link
-              to="/routines"
+              to={formValues.id ? `/routines/${formValues.id}` : '/routines'}
+              state={{ day: exerciseInfo.day }}
               className={loading ? 'pointer-events-none opacity-50' : ''}
             >
               <IconArrowLeft className="size-6 cursor-pointer" />
