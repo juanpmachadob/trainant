@@ -11,14 +11,13 @@ const classes = {
     'inline-flex cursor-pointer select-none rounded-full px-8 py-3 font-bold text-customLight shadow-customClassic outline-0 transition duration-300 ease-in-out enabled:hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50'
 }
 
-export const showAlert = ({ title, text, type, callback, ...props }) =>
+export const showAlert = ({ title, text, icon, callback, ...props }) =>
   MySwal.fire({
     title,
     text,
-    icon: type,
+    icon,
     allowOutsideClick: false,
     confirmButtonText: 'Accept',
-    showCancelButton: type === 'question',
     buttonsStyling: false,
     customClass: {
       popup: classes.popup,

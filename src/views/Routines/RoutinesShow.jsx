@@ -49,7 +49,9 @@ const RoutinesShow = () => {
         )
       }
     }
-    dispatch(updateRoutineRequest(newRoutine))
+
+    const callback = () => reset({ ...formValues })
+    dispatch(updateRoutineRequest(newRoutine, callback))
   }
 
   return (
@@ -115,11 +117,12 @@ const RoutinesShow = () => {
             </div>
             <hr />
             <ExercisesList
-              showInfo={true}
               loading={loadingRoutines}
               exercises={routine.exercises?.[day] || []}
               onClick={(exercise) => reset(exercise)}
-            />
+            >
+              <ExercisesList.ExerciseItemWithData />
+            </ExercisesList>
           </>
         )}
         {formValues.id && (
