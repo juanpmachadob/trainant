@@ -49,7 +49,8 @@ const RoutinesEdit = () => {
   })
 
   const handleEditRoutine = () => {
-    const callback = (id) => navigate(`/routines/${id}`)
+    const callback = (id) =>
+      navigate(`/routines/${id}`, { state: { day: exerciseInfo.day } })
     dispatch(updateRoutineRequest(formValues, callback))
   }
 

@@ -38,7 +38,8 @@ const RoutinesCreate = () => {
   })
 
   const handleCreateRoutine = () => {
-    const callback = (id) => navigate(`/routines/${id}`)
+    const callback = (id) =>
+      navigate(`/routines/${id}`, { state: { day: exerciseInfo.day } })
     dispatch(createRoutineRequest(formValues, callback))
   }
 
