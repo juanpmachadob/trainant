@@ -71,6 +71,18 @@ const RoutinesForm = ({
     setStep(0)
   }
 
+  const handleDeleteExerciseItem = (exercise) => {
+    setFormValues((prev) => ({
+      ...prev,
+      exercises: {
+        ...prev.exercises,
+        [exerciseInfo.day]: prev.exercises[exerciseInfo.day].filter(
+          (item) => item.id !== exercise.id
+        )
+      }
+    }))
+  }
+
   const handleSearchExerciseByTerm = (e) => {
     const term = e.target.value
     setSearchTerm(term)
@@ -179,7 +191,10 @@ const RoutinesForm = ({
               </Button>
             </div>
             <hr />
-            <ExercisesList exercises={formValues.exercises[exerciseInfo.day]}>
+            <ExercisesList
+              exercises={formValues.exercises[exerciseInfo.day]}
+              onClick={handleDeleteExerciseItem}
+            >
               <ExercisesList.ExerciseItemWithActions />
             </ExercisesList>
           </>
