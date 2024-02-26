@@ -179,10 +179,9 @@ const RoutinesForm = ({
               </Button>
             </div>
             <hr />
-            <ExercisesList
-              exercises={formValues.exercises[exerciseInfo.day]}
-              onClick={handleChangeRoutinePartExercise}
-            />
+            <ExercisesList exercises={formValues.exercises[exerciseInfo.day]}>
+              <ExercisesList.ExerciseItemWithActions />
+            </ExercisesList>
           </>
         )}
 
@@ -214,10 +213,11 @@ const RoutinesForm = ({
             </div>
             <hr />
             <ExercisesList
-              showInfo={true}
               exercises={exercises}
               onClick={handleChangeRoutinePartExercise}
-            />
+            >
+              <ExercisesList.ExerciseItem />
+            </ExercisesList>
           </>
         )}
 
