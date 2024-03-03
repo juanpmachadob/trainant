@@ -10,7 +10,7 @@ import {
 } from '@/utils/constants'
 import bodyParts from '@/utils/data/bodyParts.json'
 import targets from '@/utils/data/targets.json'
-import Button from '@/components/Button'
+import ButtonIcon from '@/components/ButtonIcon'
 import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
 import {
@@ -130,72 +130,81 @@ const RoutinesForm = ({
   return (
     <>
       <Navbar>
-        <div className="flex flex-row items-center gap-4">
+        <span className="text-start">
           {step === 0 && (
             <Link
               to={formValues.id ? `/routines/${formValues.id}` : '/routines'}
               state={{ day: exerciseInfo.day }}
               className={loading ? 'pointer-events-none opacity-50' : ''}
             >
-              <IconArrowLeft className="size-6 cursor-pointer" />
+              <ButtonIcon className="bg-white shadow-none" disabled={loading}>
+                <IconArrowLeft className="size-6" title="Arrow icon" />
+                <span className="hidden font-bold sm:block">Back</span>
+              </ButtonIcon>
             </Link>
           )}
           {step > 0 && (
-            <IconArrowLeft
+            <ButtonIcon
+              className="bg-white shadow-none"
               onClick={() => setStep(step === 4 ? 0 : step - 1)}
-              className={`size-6 cursor-pointer ${
-                loading ? 'pointer-events-none opacity-50' : ''
-              }`}
+              disabled={loading}
+            >
+              <IconArrowLeft className="size-6" title="Arrow icon" />
+              <span className="hidden font-bold sm:block">Back</span>
+            </ButtonIcon>
+          )}
+        </span>
+        <span className="text-center">
+          {step === 0 && (
+            <NavbarSelector
+              options={DAYS_OF_WEEK_ARRAY}
+              onChange={(e) => handleChangeRoutineDay(e.target.value)}
+              value={exerciseInfo.day}
+              disabled={loading}
             />
           )}
-        </div>
-        {step === 0 && (
-          <NavbarSelector
-            options={DAYS_OF_WEEK_ARRAY}
-            onChange={(e) => handleChangeRoutineDay(e.target.value)}
-            value={exerciseInfo.day}
-            disabled={loading}
-          />
-        )}
-        {step === 1 && (
-          <NavbarSelector
-            options={EXERCISE_PARTS_ARRAY}
-            onChange={(e) => handleChangeRoutinePartType(e.target.value)}
-            value={exerciseInfo.type}
-            disabled={loading}
-          />
-        )}
-        {step === 2 && (
-          <NavbarSelector
-            options={exerciseInfo.items.map((item) => ({
-              value: item,
-              label: item
-            }))}
-            onChange={(e) => handleChangeRoutinePartItem(e.target.value)}
-            value={exerciseInfo.part}
-            disabled={loading}
-          />
-        )}
-        <div className="flex">
-          {step === 0 && (
-            <IconSave
-              className={`size-6 cursor-pointer ${
-                loading ? 'pointer-events-none opacity-50' : ''
-              }`}
-              title="Save"
-              onClick={handleSubmit}
+          {step === 1 && (
+            <NavbarSelector
+              options={EXERCISE_PARTS_ARRAY}
+              onChange={(e) => handleChangeRoutinePartType(e.target.value)}
+              value={exerciseInfo.type}
+              disabled={loading}
             />
+          )}
+          {step === 2 && (
+            <NavbarSelector
+              options={exerciseInfo.items.map((item) => ({
+                value: item,
+                label: item
+              }))}
+              onChange={(e) => handleChangeRoutinePartItem(e.target.value)}
+              value={exerciseInfo.part}
+              disabled={loading}
+            />
+          )}
+        </span>
+        <span className="text-end">
+          {step === 0 && (
+            <ButtonIcon
+              className="bg-white shadow-none"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              <span className="hidden font-bold sm:block">Save</span>
+              <IconSave className="size-6" title="Save icon" />
+            </ButtonIcon>
           )}
           {step === 3 && (
-            <IconCheck
-              className={`size-6 cursor-pointer ${
-                loading ? 'pointer-events-none opacity-50' : ''
-              }`}
-              title="Select"
+            <ButtonIcon
+              className="bg-white shadow-none"
               onClick={handleSelectRoutinePartExercise}
-            />
+              disabled={loading}
+            >
+              <span className="hidden font-bold sm:block">Select</span>
+              <IconCheck className="size-6" title="Select icon" />
+            </ButtonIcon>
           )}
-        </div>
+        </span>
       </Navbar>
 
       <div className="mt-20">
@@ -216,30 +225,39 @@ const RoutinesForm = ({
                 Exercises ({formValues.exercises[exerciseInfo.day].length})
               </p>
               <span className="flex gap-4">
-                <Button
+                <ButtonIcon
+                  className="bg-customPurple text-white"
                   onClick={() => setStep(1)}
-                  className="bottom-1 self-start bg-customPurple px-3 text-white"
                   disabled={loading}
                 >
-                  <IconAdd className="size-5" />
-                </Button>
+                  <IconAdd className="size-6" title="Add icon" />
+                  <span className="hidden font-bold sm:block">Add</span>
+                </ButtonIcon>
                 {currentAction === 0 && (
-                  <Button
+                  <ButtonIcon
+                    className="bg-customRed text-white"
                     onClick={() => setCurrentAction(1)}
-                    className="bottom-1 self-start bg-customRed bg-gradient-to-r px-3 text-white"
-                    disabled={loading}
+                    disabled={
+                      loading ||
+                      formValues.exercises[exerciseInfo.day].length === 0
+                    }
                   >
-                    <IconRemove className="size-5" />
-                  </Button>
+                    <span className="hidden font-bold sm:block">Remove</span>
+                    <IconRemove className="size-6" title="Remove icon" />
+                  </ButtonIcon>
                 )}
                 {currentAction === 1 && (
-                  <Button
+                  <ButtonIcon
+                    className="bg-customDarkBlue text-white"
                     onClick={() => setCurrentAction(0)}
-                    className="bottom-1 self-start bg-customDarkBlue bg-gradient-to-r px-3 text-white"
-                    disabled={loading}
+                    disabled={
+                      loading ||
+                      formValues.exercises[exerciseInfo.day].length === 0
+                    }
                   >
-                    <IconSort className="size-5" />
-                  </Button>
+                    <span className="hidden font-bold sm:block">Sort</span>
+                    <IconSort className="size-6" title="Sort icon" />
+                  </ButtonIcon>
                 )}
               </span>
             </div>

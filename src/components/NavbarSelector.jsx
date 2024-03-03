@@ -1,7 +1,7 @@
 const NavbarSelector = ({ value, options, ...props }) => {
   return (
     <select
-      className="bg-transparent text-center text-xl font-bold capitalize outline-none"
+      className="bg-transparent text-center font-bold capitalize outline-none"
       value={value}
       {...props}
     >

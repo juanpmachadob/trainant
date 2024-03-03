@@ -9,6 +9,7 @@ import {
 } from '@/store/thunks/routinesThunk'
 import { CURRENT_DAY_OF_WEEK, DAYS_OF_WEEK_ARRAY } from '@/utils/constants'
 import Button from '@/components/Button'
+import ButtonIcon from '@/components/ButtonIcon'
 import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
 import { IconArrowLeft, IconSave } from '@/components/Icons'
@@ -58,27 +59,35 @@ const RoutinesShow = () => {
   return (
     <main className="flex flex-col">
       <Navbar>
-        <div className="flex flex-row items-center gap-4">
+        <span className="text-start">
           {!formValues.id && (
             <Link
-              to="/routines"
+              to={formValues.id ? `/routines/${formValues.id}` : '/routines'}
               className={
                 loadingRoutines ? 'pointer-events-none opacity-50' : ''
               }
             >
-              <IconArrowLeft className="size-6 cursor-pointer" />
+              <ButtonIcon
+                className="bg-white shadow-none"
+                disabled={loadingRoutines}
+              >
+                <IconArrowLeft className="size-6" title="Arrow icon" />
+                <span className="hidden font-bold sm:block">Back</span>
+              </ButtonIcon>
             </Link>
           )}
           {formValues.id && (
-            <IconArrowLeft
+            <ButtonIcon
+              className="bg-white shadow-none"
               onClick={reset}
-              className={`size-6 cursor-pointer ${
-                loadingRoutines ? 'pointer-events-none opacity-50' : ''
-              }`}
-            />
+              disabled={loadingRoutines}
+            >
+              <IconArrowLeft className="size-6" title="Arrow icon" />
+              <span className="hidden font-bold sm:block">Back</span>
+            </ButtonIcon>
           )}
-        </div>
-        <div>
+        </span>
+        <span className="text-center">
           {!formValues.id && (
             <NavbarSelector
               options={DAYS_OF_WEEK_ARRAY}
@@ -87,17 +96,19 @@ const RoutinesShow = () => {
               disabled={loadingRoutines}
             />
           )}
-        </div>
-        <div className="flex">
+        </span>
+        <span className="text-end">
           {valuesChanged && (
-            <IconSave
+            <ButtonIcon
+              className="bg-white shadow-none"
               onClick={handleEditRoutine}
-              className={`size-6 cursor-pointer ${
-                loadingRoutines ? 'pointer-events-none opacity-50' : ''
-              }`}
-            />
+              disabled={loadingRoutines}
+            >
+              <span className="hidden font-bold sm:block">Save</span>
+              <IconSave className="size-6" title="Save icon" />
+            </ButtonIcon>
           )}
-        </div>
+        </span>
       </Navbar>
 
       <div className="mt-20">

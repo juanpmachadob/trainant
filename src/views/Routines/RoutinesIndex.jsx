@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { getExercisesRequest } from '@/store/thunks/exercisesThunk'
 import { getRoutinesRequest } from '@/store/thunks/routinesThunk'
 import Button from '@/components/Button'
+import ButtonIcon from '@/components/ButtonIcon'
 import { IconArrowLeft } from '@/components/Icons'
 import Navbar from '@/components/Navbar'
 import RoutinesList from '@/components/Routines/RoutinesList'
@@ -29,7 +30,7 @@ const RoutinesIndex = () => {
   return (
     <main className="flex flex-col">
       <Navbar>
-        <div className="flex flex-row items-center gap-4">
+        <span className="text-start">
           <Link
             to="/home"
             className={
@@ -38,11 +39,17 @@ const RoutinesIndex = () => {
                 : ''
             }
           >
-            <IconArrowLeft className="size-6 cursor-pointer" />
+            <ButtonIcon
+              className="bg-white shadow-none"
+              disabled={loadingRoutines || loadingExercises}
+            >
+              <IconArrowLeft className="size-6" title="Arrow icon" />
+              <span className="hidden font-bold sm:block">Back</span>
+            </ButtonIcon>
           </Link>
-        </div>
-        <div></div>
-        <div className="flex"></div>
+        </span>
+        <span className="text-center"></span>
+        <span className="text-end"></span>
       </Navbar>
 
       <div className="m-4 mt-24 flex flex-row items-center justify-between">
