@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import {
   getExercises,
   loadExercisesFinish,
@@ -21,6 +22,26 @@ export const getExercisesRequest = () => (dispatch, getState) => {
     return
   }
 
+  // Verify if the exercisesDate is the same as today
+  const exercisesDate = localStorage.getItem('exercisesDate')
+  if (exercisesDate === dayjs().format('YYYY-MMM-DD')) {
+    // If the exercisesDate is the same as today, get the exercises from localStorage
+    try {
+      const exercises = JSON.parse(localStorage.getItem('exercises'))
+
+      // If there are exercises in localStorage, dispatch them and finish the request
+      if (exercises.length > 0) {
+        console.log('Exercises loaded from the LS')
+        dispatch(getExercises(exercises))
+        dispatch(loadExercisesFinish())
+        return
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  // Get exercises from the API
   fetch(`https://${HOST}/exercises?limit=${LIMIT}`, {
     method: 'GET',
     headers: {
@@ -30,7 +51,16 @@ export const getExercisesRequest = () => (dispatch, getState) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      dispatch(getExercises(data))
+      if (data.length > 0) {
+        // Set exercisesDate and exercises in localStorage to avoid unnecessary requests (only if is the same day)
+        localStorage.setItem('exercisesDate', dayjs().format('YYYY-MMM-DD'))
+        localStorage.setItem('exercises', JSON.stringify(data))
+
+        console.log('Exercises loaded from the API')
+        dispatch(getExercises(data))
+        return
+      }
+      throw new Error('No exercises found')
     })
     .catch((error) => console.error(error))
     .finally(() => dispatch(loadExercisesFinish()))
