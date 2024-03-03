@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
 import { loginWithEmailAndPasswordRequest } from '@/store/thunks/authThunk'
 import Button from '@/components/Button'
@@ -18,22 +19,19 @@ const Login = () => {
   }
 
   return (
-    <main className="flex h-[100dvh] flex-col items-center justify-between">
-      <span></span>
-
-      {/* Logo */}
-      <div className="flex flex-col items-center justify-center">
-        <Logo className="text-customDarkBlue" />
-      </div>
-
-      {/* Options */}
-      <div className="w-full rounded-t-3xl bg-white/75 px-4 py-8 shadow-lg shadow-black">
-        <div className="mb-8">
-          <p className="text-6xl font-bold">Trainant</p>
+    <main className="flex h-[100dvh] flex-col justify-center">
+      <div className="my-16 flex flex-col items-center gap-4 text-center">
+        <Logo className="size-24" />
+        <div>
+          <p className="text-4xl font-bold">Trainant</p>
           <p className="text-lg">Sign in to your account</p>
         </div>
-
-        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+      </div>
+      <form
+        className="flex flex-col items-center justify-between gap-8 p-4"
+        onSubmit={handleSubmit}
+      >
+        <div className="w-full">
           <Input
             label="Email"
             placeholder="Email address"
@@ -52,20 +50,25 @@ const Login = () => {
             error={formErrors.password}
             onChange={handleInputChange}
           />
-          <span
-            className="block cursor-pointer select-none text-end text-customPurple underline"
-            onClick={() => alert('not yet')}
+          <Link
+            to="/forgot-password"
+            className="block w-full cursor-pointer select-none text-end text-customPurple underline"
           >
             Forget password?
-          </span>
-
-          <Button className="bottom-1 mt-4 self-start bg-gradient-to-r from-customPurple to-customRed text-customLight">
+          </Link>
+        </div>
+        <div className="flex gap-8">
+          <Button className="bg-gradient-to-r from-customPurple to-customRed text-customLight">
             Sign in
           </Button>
-        </form>
-      </div>
+          <Link to="/register">
+            <Button className="bg-customDarkBlue bg-gradient-to-r text-customLight">
+              Register
+            </Button>
+          </Link>
+        </div>
+      </form>
     </main>
   )
 }
-
 export default Login
