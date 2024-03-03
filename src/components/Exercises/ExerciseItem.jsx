@@ -1,12 +1,14 @@
 import { useState } from 'react'
 
-const ExerciseItem = ({ exercise, onClick = () => {}, children }) => {
+const ExerciseItem = ({ exercise, onClick, children }) => {
   const [image, setImage] = useState(exercise.gifUrl)
 
   return (
     <div
-      onClick={() => onClick(exercise)}
-      className="flex w-full cursor-pointer select-none flex-row items-center justify-between gap-4 self-start rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white p-4 py-2 shadow-md"
+      onClick={() => (onClick ? onClick(exercise) : null)}
+      className={`${
+        onClick ? 'cursor-pointer' : ''
+      } flex w-full select-none flex-row items-center justify-between gap-4 self-start rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white p-4 py-2 shadow-md`}
     >
       <img
         className="size-16"

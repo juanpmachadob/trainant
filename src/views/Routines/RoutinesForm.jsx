@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import ReactGridLayout, { WidthProvider } from 'react-grid-layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { searchExercises } from '@/store/slices/exercisesSlice'
@@ -12,12 +13,20 @@ import targets from '@/utils/data/targets.json'
 import Button from '@/components/Button'
 import ExerciseInfo from '@/components/Exercises/ExerciseInfo'
 import ExercisesList from '@/components/Exercises/ExercisesList'
-import { IconArrowLeft, IconCheck, IconSave } from '@/components/Icons'
+import {
+  IconAdd,
+  IconArrowLeft,
+  IconCheck,
+  IconRemove,
+  IconSave,
+  IconSort
+} from '@/components/Icons'
 import Input from '@/components/Input'
 import Navbar from '@/components/Navbar'
 import NavbarSelector from '@/components/NavbarSelector'
 import PartList from '@/components/Parts/PartList'
 
+const GridLayout = WidthProvider(ReactGridLayout)
 const RoutinesForm = ({
   step,
   setStep,
@@ -32,6 +41,10 @@ const RoutinesForm = ({
   const { exercises } = useSelector((state) => state.exercises)
   const [searchTerm, setSearchTerm] = useState('')
   const dispatch = useDispatch()
+
+  const [currentAction, setCurrentAction] = useState(0)
+
+  const [exercisesDragLayout, setExercisesDragLayout] = useState()
 
   const handleChangeRoutineDay = (value) => {
     setExerciseInfo({ ...exerciseInfo, day: value })
@@ -94,6 +107,25 @@ const RoutinesForm = ({
       })
     )
   }
+
+  useEffect(() => {
+    if (exercisesDragLayout) {
+      const orderedDrag = exercisesDragLayout.sort((a, b) => a.y - b.y)
+
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        exercises: {
+          ...prevFormValues.exercises,
+          [exerciseInfo.day]: orderedDrag.map((item) =>
+            prevFormValues.exercises[exerciseInfo.day].find(
+              (exercise) => exercise.id === item.i
+            )
+          )
+        }
+      }))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exercisesDragLayout])
 
   return (
     <>
@@ -183,21 +215,66 @@ const RoutinesForm = ({
               <p className="text-3xl font-bold">
                 Exercises ({formValues.exercises[exerciseInfo.day].length})
               </p>
-              <Button
-                onClick={() => setStep(1)}
-                className="bottom-1 self-start bg-gradient-to-r from-customPurple to-customRed px-5 text-white"
-                disabled={loading}
-              >
-                Add
-              </Button>
+              <span className="flex gap-4">
+                <Button
+                  onClick={() => setStep(1)}
+                  className="bottom-1 self-start bg-customPurple px-3 text-white"
+                  disabled={loading}
+                >
+                  <IconAdd className="size-5" />
+                </Button>
+                {currentAction === 0 && (
+                  <Button
+                    onClick={() => setCurrentAction(1)}
+                    className="bottom-1 self-start bg-customRed bg-gradient-to-r px-3 text-white"
+                    disabled={loading}
+                  >
+                    <IconRemove className="size-5" />
+                  </Button>
+                )}
+                {currentAction === 1 && (
+                  <Button
+                    onClick={() => setCurrentAction(0)}
+                    className="bottom-1 self-start bg-customDarkBlue bg-gradient-to-r px-3 text-white"
+                    disabled={loading}
+                  >
+                    <IconSort className="size-5" />
+                  </Button>
+                )}
+              </span>
             </div>
             <hr />
+
             <ExercisesList
-              exercises={formValues.exercises[exerciseInfo.day]}
+              length={formValues.exercises[exerciseInfo.day].length}
               onClick={handleDeleteExerciseItem}
+            />
+
+            <GridLayout
+              rowHeight={80}
+              cols={1}
+              isResizable={false}
+              draggableHandle=".draggable"
+              layout={exercisesDragLayout}
+              onDragStop={setExercisesDragLayout}
             >
-              <ExercisesList.ExerciseItemWithActions />
-            </ExercisesList>
+              {formValues.exercises &&
+                formValues.exercises[exerciseInfo.day].map((exercise) => (
+                  <div key={exercise.id}>
+                    {currentAction === 0 && (
+                      <ExercisesList.ExerciseItemWithActionDrag
+                        exercise={exercise}
+                      />
+                    )}
+                    {currentAction === 1 && (
+                      <ExercisesList.ExerciseItemWithActionDelete
+                        exercise={exercise}
+                        onClick={handleDeleteExerciseItem}
+                      />
+                    )}
+                  </div>
+                ))}
+            </GridLayout>
           </>
         )}
 
@@ -228,11 +305,15 @@ const RoutinesForm = ({
               </p>
             </div>
             <hr />
-            <ExercisesList
-              exercises={exercises}
-              onClick={handleChangeRoutinePartExercise}
-            >
-              <ExercisesList.ExerciseItem />
+            <ExercisesList length={exercises.length}>
+              {exercises &&
+                exercises.map((exercise) => (
+                  <ExercisesList.ExerciseItem
+                    onClick={handleChangeRoutinePartExercise}
+                    key={exercise.id}
+                    exercise={exercise}
+                  />
+                ))}
             </ExercisesList>
           </>
         )}

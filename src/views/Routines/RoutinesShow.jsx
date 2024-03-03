@@ -119,10 +119,15 @@ const RoutinesShow = () => {
             <hr />
             <ExercisesList
               loading={loadingRoutines}
-              exercises={routine.exercises?.[day] || []}
-              onClick={(exercise) => reset(exercise)}
+              length={routine.exercises?.[day]?.length || 0}
             >
-              <ExercisesList.ExerciseItemWithData />
+              {routine.exercises?.[day]?.map((exercise) => (
+                <ExercisesList.ExerciseItemWithData
+                  exercise={exercise}
+                  onClick={(exercise) => reset(exercise)}
+                  key={exercise.id}
+                />
+              ))}
             </ExercisesList>
           </>
         )}

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import App from '@/App.jsx'
 import store from '@/store'
 import '@/index.css'
+import '@/../node_modules/react-grid-layout/css/styles.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,26 +1,23 @@
-import { cloneElement } from 'react'
 import ExerciseEmpty from './ExerciseEmpty'
 import ExerciseItem from './ExerciseItem'
-import ExerciseItemWithActions from './ExerciseItemWithActions'
+import ExerciseItemWithActionDelete from './ExerciseItemWithActionDelete'
+import ExerciseItemWithActionDrag from './ExerciseItemWithActionDrag'
 import ExerciseItemWithData from './ExerciseItemWithData'
 import ExerciseSkeleton from './ExerciseSkeleton'
 
-const ExercisesList = ({ onClick, loading, exercises, children }) => {
+const ExercisesList = ({ loading, length, children }) => {
   return (
     <section className="m-4 flex flex-col gap-4">
-      {loading && exercises.length === 0 && <ExerciseSkeleton />}
-      {!loading && exercises.length === 0 && <ExerciseEmpty />}
-
-      {exercises &&
-        exercises.map((exercise) =>
-          cloneElement(children, { key: exercise.id, exercise, onClick })
-        )}
+      {loading && length === 0 && <ExerciseSkeleton />}
+      {!loading && length === 0 && <ExerciseEmpty />}
+      {children}
     </section>
   )
 }
 
 ExercisesList.ExerciseItem = ExerciseItem
 ExercisesList.ExerciseItemWithData = ExerciseItemWithData
-ExercisesList.ExerciseItemWithActions = ExerciseItemWithActions
+ExercisesList.ExerciseItemWithActionDelete = ExerciseItemWithActionDelete
+ExercisesList.ExerciseItemWithActionDrag = ExerciseItemWithActionDrag
 
 export default ExercisesList
