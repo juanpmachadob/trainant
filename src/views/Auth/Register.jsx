@@ -24,16 +24,16 @@ const Register = () => {
   }
 
   return (
-    <main className="flex h-[100dvh] flex-col justify-center">
-      <div className="my-16 flex flex-col items-center gap-4 text-center">
+    <main className="flex h-[100dvh] flex-col justify-between">
+      <div className="mt-8 flex flex-col items-center gap-4 px-4 text-center">
         <Logo className="size-24" />
         <div>
           <p className="text-4xl font-bold">Trainant</p>
-          <p className="text-lg">Sign in to your account</p>
+          <p className="text-lg">Create your account</p>
         </div>
       </div>
       <form
-        className="flex flex-col items-center justify-between gap-8 p-4"
+        className="mb-8 flex flex-col items-center justify-between gap-8 px-4"
         onSubmit={handleSubmit}
       >
         <div className="w-full">
@@ -82,21 +82,16 @@ const Register = () => {
             error={formErrors.password}
             onChange={handleInputChange}
           />
-          <Link
-            to="/forgot-password"
-            className="block w-full cursor-pointer select-none text-end text-customPurple underline"
-          >
-            Forget password?
-          </Link>
         </div>
-        <div className="flex gap-8">
+        <div className="flex items-center gap-8">
           <Button className="bg-gradient-to-r from-customPurple to-customRed text-customLight">
             Sign up
           </Button>
-          <Link to="/login">
-            <Button className="bg-customDarkBlue bg-gradient-to-r text-customLight">
-              Login
-            </Button>
+          <Link
+            to="/login"
+            className="block w-full cursor-pointer select-none text-end text-customPurple underline"
+          >
+            Go to login
           </Link>
         </div>
       </form>

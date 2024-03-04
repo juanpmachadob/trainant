@@ -19,8 +19,8 @@ const Login = () => {
   }
 
   return (
-    <main className="flex h-[100dvh] flex-col justify-center">
-      <div className="my-16 flex flex-col items-center gap-4 text-center">
+    <main className="flex h-[100dvh] flex-col justify-between">
+      <div className="mt-8 flex flex-col items-center gap-4 px-4 text-center">
         <Logo className="size-24" />
         <div>
           <p className="text-4xl font-bold">Trainant</p>
@@ -28,7 +28,7 @@ const Login = () => {
         </div>
       </div>
       <form
-        className="flex flex-col items-center justify-between gap-8 p-4"
+        className="mb-8 flex flex-col items-center justify-between gap-8 px-4"
         onSubmit={handleSubmit}
       >
         <div className="w-full">
@@ -54,17 +54,18 @@ const Login = () => {
             to="/forgot-password"
             className="block w-full cursor-pointer select-none text-end text-customPurple underline"
           >
-            Forget password?
+            Forgot password?
           </Link>
         </div>
-        <div className="flex gap-8">
+        <div className="flex items-center gap-8">
           <Button className="bg-gradient-to-r from-customPurple to-customRed text-customLight">
             Sign in
           </Button>
-          <Link to="/register">
-            <Button className="bg-customDarkBlue bg-gradient-to-r text-customLight">
-              Register
-            </Button>
+          <Link
+            to="/register"
+            className="block w-full cursor-pointer select-none text-end text-customPurple underline"
+          >
+            Create account
           </Link>
         </div>
       </form>
