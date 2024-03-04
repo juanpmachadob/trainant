@@ -1,7 +1,10 @@
+/* eslint-disable no-unreachable */
 import dayjs from 'dayjs'
 import {
+  confirmPasswordReset,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut
 } from 'firebase/auth'
@@ -15,6 +18,7 @@ import {
   verifyAuthFinish,
   verifyAuthStart
 } from '@/store/slices/authSlice'
+import { showAlert } from '@/utils/alerts'
 
 export const verifyAuthRequest = () => async (dispatch) => {
   onAuthStateChanged(auth, (user) => {
@@ -47,6 +51,38 @@ export const loginWithEmailAndPasswordRequest = (user) => async (dispatch) => {
   dispatch(loadAuthStart())
 
   signInWithEmailAndPassword(auth, user.email, user.password)
+    .catch((error) => console.error(error))
+    .finally(() => dispatch(loadAuthFinish()))
+}
+
+export const forgotPasswordRequest = (email, callback) => async (dispatch) => {
+  dispatch(loadAuthStart())
+
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      showAlert({
+        icon: 'success',
+        title: 'Email sent',
+        text: 'A password reset link has been sent to your email address',
+        callback: () => callback && callback()
+      })
+    })
+    .catch((error) => console.error(error))
+    .finally(() => dispatch(loadAuthFinish()))
+}
+
+export const resetPasswordRequest = (data, callback) => async (dispatch) => {
+  dispatch(loadAuthStart())
+
+  confirmPasswordReset(auth, data.oobCode, data.password)
+    .then(() => {
+      showAlert({
+        icon: 'success',
+        title: 'Password updated',
+        text: 'Your password has been updated successfully',
+        callback: () => callback && callback()
+      })
+    })
     .catch((error) => console.error(error))
     .finally(() => dispatch(loadAuthFinish()))
 }
