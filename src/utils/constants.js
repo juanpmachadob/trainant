@@ -1,5 +1,15 @@
 import dayjs from 'dayjs'
 
+export const GENDER_OBJECT = {
+  MALE: 'male',
+  FEMALE: 'female'
+}
+
+export const GENDER_ARRAY = [
+  { value: GENDER_OBJECT.MALE, label: 'Male' },
+  { value: GENDER_OBJECT.FEMALE, label: 'Female' }
+]
+
 export const EXERCISE_PARTS_OBJECT = {
   BODY_PART: 'bodyParts',
   TARGET: 'targets'

@@ -11,6 +11,7 @@ import AuthenticatedRoute from '@/router/AuthenticatedRoute'
 import UnauthenticatedRoute from '@/router/UnauthenticatedRoute'
 import { verifyAuthRequest } from '@/store/thunks/authThunk'
 import Login from '@/views/Auth/Login'
+import Register from '@/views/Auth/Register'
 import Home from '@/views/Home'
 import Page404 from '@/views/Page404'
 import RoutinesCreate from '@/views/Routines/RoutinesCreate'
@@ -38,6 +39,7 @@ export const AppRouter = () => {
                   element={<UnauthenticatedRoute isAuthenticated={!!user.id} />}
                 >
                   <Route path="login" element={<Login />} />
+                  <Route path="register" element={<Register />} />
                 </Route>
 
                 <Route
