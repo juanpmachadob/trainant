@@ -15,6 +15,7 @@ import ExercisesList from '@/components/Exercises/ExercisesList'
 import { IconArrowLeft, IconSave } from '@/components/Icons'
 import Navbar from '@/components/Navbar'
 import NavbarSelector from '@/components/NavbarSelector'
+import StopWatch from '@/components/StopWatch'
 
 const RoutinesShow = () => {
   const { id } = useParams()
@@ -110,6 +111,8 @@ const RoutinesShow = () => {
           )}
         </span>
       </Navbar>
+
+      <StopWatch />
 
       <div className="mt-20">
         {!formValues.id && (
