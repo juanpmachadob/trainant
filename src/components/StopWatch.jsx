@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-custom-classname */
-import { useRef, useState } from 'react'
+import dayjs from 'dayjs'
+import { useEffect, useRef, useState } from 'react'
 import ReactGridLayout from 'react-grid-layout'
 import ButtonIcon from './ButtonIcon'
 import { IconPause, IconPlay, IconStop, IconWatch } from './Icons'
@@ -9,12 +10,20 @@ const StopWatch = () => {
   const [currentTime, setCurrentTime] = useState(0)
 
   const timeInterval = useRef(null)
+  const startedTime = useRef(null)
 
   const handleStart = () => {
     if (isRunning) return
     setIsRunning(true)
+
+    // If the stopwatch is paused, add the time that has already passed
+    startedTime.current = dayjs().valueOf() - currentTime * 10
+
     timeInterval.current = setInterval(() => {
-      setCurrentTime((prev) => prev + 1)
+      // Calculate the difference between the current time and the started time.
+      // This ensures that if the browser tab becomes inactive, the time calculation is still correct.
+      const difference = dayjs().diff(startedTime.current, 'millisecond') / 10
+      setCurrentTime(difference)
     }, 10)
   }
 
@@ -43,6 +52,14 @@ const StopWatch = () => {
 
     return `${minutes}:${seconds}:${milliseconds}`
   }
+
+  useEffect(() => {
+    return () => {
+      if (timeInterval.current) {
+        clearInterval(timeInterval.current)
+      }
+    }
+  }, [])
 
   return (
     <div className="fixed -bottom-2 left-2 z-[9999]">
