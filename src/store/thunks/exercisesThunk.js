@@ -1,4 +1,6 @@
 import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import {
   getExercises,
   loadExercisesFinish,
@@ -13,6 +15,8 @@ const API_KEY = import.meta.env.VITE_EXERCISE_DB_API_KEY
 // instead of exceeding the limit by making individual requests for each user's exercises.
 const LIMIT = 1500
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 export const getExercisesRequest = () => (dispatch, getState) => {
   dispatch(loadExercisesStart())
 
@@ -22,10 +26,18 @@ export const getExercisesRequest = () => (dispatch, getState) => {
     return
   }
 
-  // Verify if the exercisesDate is the same as today
+  // Get the current date in Central Time (America/Chicago)
+  const currentCtDate = dayjs().tz('America/Chicago')
+
+  // Get the next update time (12:00 PM CT)
+  const noon = currentCtDate.hour(12).minute(0).second(0)
+  const nextUpdateCtDate = currentCtDate.isBefore(noon)
+    ? noon
+    : noon.add(1, 'day')
+
   const exercisesDate = localStorage.getItem('exercisesDate')
-  if (exercisesDate === dayjs().format('YYYY-MMM-DD')) {
-    // If the exercisesDate is the same as today, get the exercises from localStorage
+  // Verify if the exercisesDate and the nextUpdateCtDate are not different by more than 24 hours
+  if (nextUpdateCtDate.diff(dayjs(exercisesDate), 'hour') < 24) {
     try {
       const exercises = JSON.parse(localStorage.getItem('exercises'))
 
@@ -53,7 +65,7 @@ export const getExercisesRequest = () => (dispatch, getState) => {
     .then((data) => {
       if (data.length > 0) {
         // Set exercisesDate and exercises in localStorage to avoid unnecessary requests (only if is the same day)
-        localStorage.setItem('exercisesDate', dayjs().format('YYYY-MMM-DD'))
+        localStorage.setItem('exercisesDate', currentCtDate.toISOString())
         localStorage.setItem('exercises', JSON.stringify(data))
 
         console.log('Exercises loaded from the API')
