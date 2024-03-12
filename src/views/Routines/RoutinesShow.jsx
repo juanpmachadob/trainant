@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import useForm from '@/hooks/useForm'
@@ -57,6 +58,14 @@ const RoutinesShow = () => {
     dispatch(updateRoutineRequest(newRoutine, callback))
   }
 
+  const handleReset = () => {
+    document.startViewTransition(() => {
+      flushSync(() => {
+        reset()
+      })
+    })
+  }
+
   return (
     <main className="flex flex-col">
       <Navbar>
@@ -80,7 +89,7 @@ const RoutinesShow = () => {
           {formValues.id && (
             <ButtonIcon
               className="bg-white shadow-none"
-              onClick={reset}
+              onClick={handleReset}
               disabled={loadingRoutines}
             >
               <IconArrowLeft className="size-6" title="Arrow icon" />

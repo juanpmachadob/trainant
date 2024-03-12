@@ -57,7 +57,10 @@ const ExerciseInfo = ({ showInfo, loading, exercise, setExerciseValues }) => {
   return (
     <>
       <section className="m-4">
-        <div className="overflow-hidden rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white shadow-customClassic">
+        <div
+          className="overflow-hidden rounded-bl-3xl rounded-br-xl rounded-tl-xl rounded-tr-3xl bg-white shadow-customClassic"
+          style={{ viewTransitionName: `exercise-container-${exercise.id}` }}
+        >
           {/* Header */}
           <div className="flex items-center justify-between rounded-3xl rounded-br-xl rounded-tl-xl bg-customPurple px-8 py-4 text-white shadow-customClassic">
             <div className="flex flex-col">
@@ -70,7 +73,7 @@ const ExerciseInfo = ({ showInfo, loading, exercise, setExerciseValues }) => {
             </div>
           </div>
           {/* Body */}
-          <div className="relative flex justify-center p-4">
+          <div className="relative flex min-h-96 justify-center p-4">
             <div className="absolute bottom-4 right-4 flex gap-2">
               {showInfo && 'currentWeight' in exercise && (
                 <button
@@ -100,6 +103,7 @@ const ExerciseInfo = ({ showInfo, loading, exercise, setExerciseValues }) => {
               src={image}
               alt={`Exercise preview: ${exercise.name}`}
               onError={() => setImage('/images/exercisePlaceholder.gif')}
+              style={{ viewTransitionName: `exercise-image-${exercise.id}` }}
             />
           </div>
         </div>
